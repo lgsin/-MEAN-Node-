@@ -4,7 +4,7 @@
 
 ---
 
-本文前提是你已经了解了[angualrjs](http://linshuo.sinaapp.com/?p=245 "angularjs")
+本文前提是你已经了解了angualrjs,也可以从这了解[点击](http://linshuo.sinaapp.com/?p=245 "angularjs")
 
 一切准备就绪，那么就让我们开始吧！
 ## 前言
@@ -436,7 +436,7 @@ User.prototype = {
       }
   }
 ```
-  
+
 接着，我们在index.js中实例化(req.body表示post请求过来的参数)这个userModel并调用它的save方法，进行用户注册，具体代码如下
 ```javascript
 
