@@ -324,7 +324,7 @@ cookie 的 maxAge 值设定cookie的生存期，我们设置 cookie 的生存期
 angualrjs这些ng指令在这里不详细展开，有问题的可以看我写的angualrjs系列，或查一下其他方面的资料。login.html建好了。我们来看一下app.js里面内容吧。
 我们删除原来的*
 
-```
+```javascript
 .when('/', {
                 templateUrl: 'views/main.html',
                 controller: 'MainCtrl'
@@ -333,7 +333,7 @@ angualrjs这些ng指令在这里不详细展开，有问题的可以看我写的
 
 并添加我们自己的路由判断规则，完整代码如下
 
-```
+```javascript
 'use strict';
 (function(){
     var app = angular.module('nApp', []);
@@ -358,7 +358,7 @@ angualrjs这些ng指令在这里不详细展开，有问题的可以看我写的
 
 简单解释一下，angualrjs使用了$routeProvider自带的路由选择器来进行路由判读，就如
 
-```
+```javascript
 .when('/', {
                 templateUrl: 'views/login.html',
                 controller: 'loginCtrl'
@@ -369,7 +369,7 @@ angualrjs这些ng指令在这里不详细展开，有问题的可以看我写的
 angularjs通过地址栏进行导航的深度链接（deeplinking ），也就成就了我们的路由机制，通过这样路由机制，一个单页应用的各个视图的组织起来了。上面的语法是，当url#后面为/时（http://localhost:3000/#/），将使用的模板路径为’views/login.html’，使用的controller为’loginCtrl’<br/>
 
 接着，我们就来书写我们的loginCtrl吧！controller的内容在app/scripts/controllers/main.js中，一样的，也可以放在别处，这里为了方便先在这main.js内。我们把MainCtrl删除掉，并添加我们自己的Ctrl.详细代码如下
-```
+```javascript
 'use strict';
 
 angular.module('nApp')
@@ -388,7 +388,7 @@ angular.module('nApp')
 有了上面的注释，相信能看得清除一些。这些都是angualrjs的内容，可以查看我写的angualrjs目录下的内容。
 我们看到我们提交了POST请求，到’/api/login’这个路径下。这个post请求会被后台的路由接收到，即在routes/index.js中进行判断。
 这里我们先创建我们的userModel,用来与数据库交互用的。具体代码如下
-```
+```javascript
 var mongodb = require('./db');
 function User(user){ 
   this.name = user.name; 
@@ -438,7 +438,7 @@ User.prototype = {
 ```
   
 接着，我们在index.js中实例化(req.body表示post请求过来的参数)这个userModel并调用它的save方法，进行用户注册，具体代码如下
-```
+```javascript
 
 var User = require('../models/user.js');
 module.exports = function (app) {
