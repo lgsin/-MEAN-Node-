@@ -1,0 +1,44 @@
+<div class="title-show select-result">
+	<div class="ctr-btn">
+		<div class="pre"></div>
+		<div class="next"></div>
+	</div>
+	<h2>常用联系人</h2>
+</div>
+<table>
+	<tr>
+		<th>序号</th>
+		<th>姓名</th>
+		<th>身份证号</th>
+		<th>手机号</th>
+		<th colspan="2">操作</th>
+	</tr>
+	<tr ng-repeat="hadFriend in hadFriends">
+		<td>{{$index}}</td>
+		<td contenteditable = 'true' >{{hadFriend.name}}</td>
+		<td>{{hadFriend.idCard}}</td>
+		<td>{{hadFriend.phone}}</td>
+		<td><a href="javascript:void(0)" class="btn book-btn" ng-click="deleteFri($index)">删除</a><a href="javascript:void(0)" class="btn book-btn" ng-click="updateFri($index)">修改</a></td>
+	</tr>
+</table>
+<div class="title-show select-result">
+	<div class="ctr-btn">
+		<div class="pre"></div>
+		<div class="next"></div>
+	</div>
+	<h2>添加新联系人</h2>
+</div>
+<table>
+	<tr>
+		<th>姓名</th>
+		<th>身份证号</th>
+		<th>手机号</th>
+		<th>操作</th>
+	</tr>
+	<tr>
+		<td><input type="text" size="5em" ng-model="newFriend.name"></td>
+		<td><input type="text" size="15em" ng-model="newFriend.idCard"></td>
+		<td><input type="text" size="15em" ng-model="newFriend.phone"></td>
+		<td><a href="javascript:void(0)" class="btn book-btn" ng-click="selectPath($index)">更多</a><a href="javascript:void(0)" class="btn book-btn" ng-click="addFriend()">添加</a></td>
+	</tr>
+</table>

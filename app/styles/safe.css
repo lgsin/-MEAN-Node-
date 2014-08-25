@@ -1,0 +1,45 @@
+ul.safeUl{
+	width: 100%;
+	color: gray;
+}
+ul.safeUl li{
+	margin-bottom: 20px;
+	outline: 1px solid rgb(195, 195, 216);
+}
+ul.safeUl li a{
+	display: inline-block;
+	width: 240px;
+	height: 100px;
+	vertical-align: middle;
+}
+ul.safeUl li a i{
+	display: inline-block;
+	width: 100%;
+	background-image: url(images/safe.png);
+	height: 90px;
+	margin-top: 5px;
+	border-right: 1px dashed rgb(190, 188, 188);
+}
+ul.safeUl li a i.dianhua{
+	background-position: 0px -125px;
+}
+ul.safeUl li a i.youxiang{
+	background-position: 0px -250px;
+}
+ul.safeUl li a i.shouji{
+	background-position: 0px -375px;
+}
+ul.safeUl span{
+	display: inline-block;
+	margin-left: 20px;
+	width: 300px;
+}
+ul.safeUl button{
+	display: inline-block;
+	background: #eee;
+	border: 0;
+	color: black;
+	padding: 6px 30px;
+	border-radius: 4px;
+	border: 1px solid rgb(213, 213, 213);
+}

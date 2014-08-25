@@ -1,0 +1,32 @@
+
+<div class="content-bd">
+	<!-- 幻灯片 开始 -->
+	<div class="slider">
+		<div class="slider-pannel">
+			<a href="" class="pannel-bd">
+				<img src="images/topp.png" alt="" class="pannel-img">
+		 		<span class="pannel-title">即刻触发，白本出境 Say go to go!</span>
+			</a>
+		</div>
+		<div class="slider-nav">
+			<ul>
+				<li class="active"></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
+	</div>
+	<!-- 幻灯片 结束 -->
+	<!-- 列表 开始 -->
+	<div class="post-list">
+		<span ng-repeat = "place in placeList">
+			<img ng-src="{{place.img}}" alt="">
+			<i class="title">{{place.title}}
+				<div >￥ {{place.price}} 起<a href="#/page_detail/{{place.page_id}}" class="btn">预定</a></div>
+			</i>
+		</span>
+		
+	</div>
+	<!-- 列表 结束 -->
+</div>
+

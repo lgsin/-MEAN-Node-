@@ -1,0 +1,142 @@
+<link rel="stylesheet" href="styles/page_detail.css">
+<!-- dialog -->
+	<div id="dialog" ng-show="isDialog">
+		<div class="dialog-cont" >
+			<div class="dialog-header">
+				<p > 填写联系信息</p>
+			</div>
+			<div class="dialog-main">
+				<h3>已选择路线</h3>
+				<p><span>{{selectedPath.beginP}}->{{selectedPath.endP}}</span>[<span>{{selectedPath.date}}</span>]<span>{{selectedPath.price}}</span></p>
+
+				<h3>选择已有联系人</h3>
+				<label ng-repeat="hadFriend in hadFriends" style="margin-right:14px;">{{hadFriend.name}}<input type="checkbox" ng-click="toggle($index)"></label>
+				
+				<h3>填写新联系人</h3>
+				<div class="new-user">
+					<label for="user-name">姓名:</label><input type="text" id="user-name" name="user-name" ng-model="newFriend.name">
+					<label for="user-idCard">身份证:</label><input type="text" id="user-idCard" name="user-idCard" ng-model="newFriend.idCard">
+					<label for="user-phone">手机:</label><input type="text" id="user-phone" name="user-phone" ng-model="newFriend.phone">
+				</div>
+				<a href="javascript:void(0)" class="add-new-user" ng-click="addFriend()">点击添加新联系人</a>
+			</div>
+			<div class="dialog-footer">
+				<div class="btn-groud">
+					<a href="javascript:void(0)" id="removeDialog" class="removeDialog" ng-click="cencelDialog()">取消</a>
+					<a href="javascript:void(0)" ng-click="bookTicket()">确定</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- dialog 结束 -->
+		
+			<div class="content-bd">
+				
+				<div class="post-list">
+					<span>
+						<img src="images/1.jpg" alt="">
+						<i class="title">东航或国航，零利润预售中
+							<div >￥ 2149 起<a href="###" class="btn">预定</a></div>
+						</i>
+					</span>
+					<span class="intr">
+						<h2>畅游股份有限公司</h2>
+						<h3>公司简介</h3>
+						<ul>
+							<li>
+							 	高校汽车网络提供车
+							</li>
+							<li>查看权威媒体对畅途网的报道</li>
+							<li>客服热线：400-600-8080</li>
+						</ul>
+						<h3>购票须知</h3>
+							 	报价不包含油费、路桥费、停车费、司机餐费、发票。
+自驾形式均需提供5000-10000元不等的违章押金，一个月后自动退还。
+用车请至少提前2-3天预定，特殊车型需提前一周以上时间预定，节假日价格会有点变动。
+					</span>
+					
+				</div>
+				<div class="showTic">
+					<div class="title-show">
+						<h2>选择上车地点</h2>
+					</div>
+					<div>
+						<div class="places">
+							<div class="place" ng-repeat= "placeBegin in placesBegin" ng-class="{'place-select': $index == selectedBegin}">
+								<div class="place-icon place-icon-rain">
+									<span></span>
+								</div>
+								<div class="place-cont">
+									<div class="cont-heading">
+										<span>{{placeBegin.placeName}}</span>
+									</div>
+									<div class="cont-desc">
+										<span>{{placeBegin.placeIntr}}</span>
+									</div>
+									
+								</div>
+								<div class="cont-btndiv">
+										<a href="javascript:void(0)" class="cont-btn" ng-click="selectedBeginPlace($index)"><i></i></a>
+									</div>
+							</div>
+							<span class="justify_fix"></span>
+						</div>
+					<div class="title-show">
+						<h2>选择下车地点</h2>
+					</div>
+					<div>
+						<div class="places">
+							
+							<div class="place" ng-repeat="placeEnd in placesEnd" ng-class="{'place-select': $index == selectedEnd}">
+								<div class="place-icon place-icon-rain-thunder">
+									<span></span>
+								</div>
+								<div class="place-cont">
+									<div class="cont-heading">
+										<span>{{placeEnd.placeName}}</span>
+									</div>
+									<div class="cont-desc">
+										<span>{{placeEnd.placeIntr}}</span>
+									</div>
+									
+								</div>
+								<div class="cont-btndiv">
+										<a href="javascript:void(0)" class="cont-btn" ng-click="placeEndSelect($index)"><i title="选中"></i></a>
+									</div>
+							</div>
+							
+							<span class="justify_fix"></span>
+						</div>
+					</div>
+
+					<div class="title-show select-result">
+						<div class="ctr-btn">
+							<div class="pre"></div>
+							<div class="next"></div>
+						</div>
+						<h2>筛选结果</h2>
+					</div>
+					<table>
+						<tr>
+							<th>上车时间</th>
+							<th>上车地点</th>
+							<th>下车地点</th>
+							<th>价格</th>
+							<th>剩余票数</th>
+							<th>操作</th>
+						</tr>
+						<tr ng-repeat="path in paths | filter : {beginP: queryBeginP, endP: queryEndP}">
+							<td>{{path.date}}</td>
+							<td>{{path.beginP}}</td>
+							<td>{{path.endP}}</td>
+							<td>{{path.price}}</td>
+							<td>{{path.ticket}}</td>
+							<td><a href="javascript:void(0)" class="btn book-btn" ng-click="selectPath($index)">预定</a></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	

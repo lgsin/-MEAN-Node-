@@ -1,0 +1,25 @@
+<div class="title-show select-result">
+	<div class="ctr-btn">
+		<div class="pre"></div>
+		<div class="next"></div>
+	</div>
+	<h2>未完成订单</h2>
+</div>
+<table>
+	<tr>
+		<th>预订人</th>
+		<th>上车时间</th>
+		<th>上车地点</th>
+		<th>下车地点</th>
+		<th>价格</th>
+		<th>操作</th>
+	</tr>
+	<tr ng-repeat="ticket in tickets">
+		<td>{{ticket.name}}</td>
+		<td>{{ticket.date}}</td>
+		<td>{{ticket.beginP}}</td>
+		<td>{{ticket.endP}}</td>
+		<td>{{ticket.price}}</td>
+		<td><a href="javascript:void(0)" class="btn book-btn" ng-click="cencelTicket($index)">取消</a></td>
+	</tr>
+</table>

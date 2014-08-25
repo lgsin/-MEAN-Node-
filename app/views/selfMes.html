@@ -1,0 +1,26 @@
+<div class="title-show select-result">
+	<div class="ctr-btn">
+		<div class="pre"></div>
+		<div class="next"></div>
+	</div>
+	<h2>个人信息</h2>
+</div>
+<link rel="stylesheet" href="styles/selfMes.css">
+<fieldset>
+	<legend>基本信息</legend>
+	<label class="indent1">用户名：<input type="text" ng-model="user.username" readonly="readonly"></label>
+	<label class="indent2">姓名：<input type="text" ng-model="user.name"></label>
+	<label class="indent2">性别：<input type="text" ng-model="user.sex"></label>
+	<label class="indent1">所在地：<input type="text" ng-model="user.location"></label>
+	<label>身份证号：<input type="text" ng-model="user.idCard"></label>
+	<button class="btn edit" ng-click="userUpdate()">编辑</button>
+</fieldset>
+<fieldset>
+	<legend>联系方式</legend>
+	<label>手机号码：<input type="text" ng-model="user.phone"></label>
+	<label>固定电话：<input type="text" ng-model="user.tel"></label>
+	<label>电子邮件：<input type="text" ng-model="user.email"></label>
+	<label class="indent2">邮编：<input type="text" ng-model="user.postcode"></label>
+	<label>传真号码：<input type="text" ng-model="user.fax"></label>
+	<button class="btn edit" ng-click="userUpdate()">编辑</button>
+</fieldset>

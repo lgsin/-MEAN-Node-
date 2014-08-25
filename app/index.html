@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="styles/lib/normalize.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- 各个页面样式 -->
+    <link rel="stylesheet" href="styles/index.css">
+    <!-- endbuild -->
+  </head>
+  <body ng-app="nApp">
+    
+    <!-- 固定侧边导航  -->
+    <div id="content">
+        <div class="col-left">
+        <div class="nav">
+            <a href="" class="nav-logo"><img src="" alt=""></a>
+            <div class="nav-menu">
+                <div class="nav-label">
+                    <span></span>
+                </div>
+                <ul class="menu">
+                    <li ><a href="###" class="menu-active">首页</a></li>
+                    <li>
+                        <a href="#/myTicket/booking">我的车票</a>
+                         <ul class="sub-menu">
+                            <li><a href="#/myTicket/booking">未完成订单</a></li>
+                            <li><a href="#/myTicket/booked">已完成订单(改/退)</a></li>
+                        </ul> 
+                    </li>
+                    <li>
+                        <a href="#/self/selfMes">个人信息</a>
+                        <ul class="sub-menu">
+                            <li><a href="#/self/selfMes">查看个人信息</a></li>
+                            <li><a href="#/self/safe">账户安全</a></li>
+                        </ul> 
+                    </li>
+                    <li><a href="#/mes/people">常用信息管理</a>
+                        <ul class="sub-menu">
+                            <li><a href="#/mes/people">常用联系人</a></li>
+                            <li><a href="###">车票快递地址</a></li>
+                        </ul> 
+                    </li>
+                </ul>
+            </div>
+            <div class="nav-search">
+                <form action="">
+                    <input type="text" placeholder="search..">
+                    <a href="###">search</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- 左侧结束 -->
+    <!-- 右侧开始 -->
+    <div class="col-right">
+        <div id="login" class="login" ng-controller="loginCtr">
+            <div class="login-welcome">
+                <a href="javascripr:void(0)" ng-click="login()" class="login-name" ng-show="!isLogin">登录</a>
+                <em ng-show="isLogin">欢迎</em>
+                <a href="###" class="login-name" ng-show="isLogin">{{userName}}</a>|
+                <a href="###" ng-show="isLogin" ng-click="logout()">退出</a>
+                <a href="javascript:void(0)" ng-show="!isLogin">注册</a>
+                <!-- 登录框 待整理 -->
+                <link rel="stylesheet" href="styles/login.css">
+                <div id="dialog" ng-show="isShow">
+                    <div class="loginBox" >
+                        <div class="loginBox_header">
+                            <a href="javascript:void(0)" ng-click="login()">x</a>
+                        </div>
+                        <form id="post" ng-submit="form.submit()">
+                            <input type="text" name="userName" ng-model="form.username" id="userName" placeholder="请输入用户名">
+                            <input type="text" name="pwd"  ng-model="form.password" id="pwd" placeholder="请输入密码">
+                            <div class="ctr">
+                                <input type="submit" class="loginBox_submit" value="登录">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 登录框 结束 -->
+            </div>
+        </div>
+
+        <!-- 动态模板在这里插入！！！！！！ -->
+        <div class="container" ng-view=""></div>
+    </div>
+    <!-- 右侧结束 -->
+    </div>
+    <!-- 底部  -->
+    <div id="footer">
+        <span class="icp">
+            2013－2014 linshuo.com, all rights reserved
+        </span>
+    </div>
+    <!-- 底部 结束 -->
+
+
+
+    <!-- Libraries -->
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    
+
+    <!-- build:js scripts/modules.js -->
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <!-- endbuild -->
+
+    <!-- 共用script -->
+    <script src="scripts/script.js"></script>
+    <script src="scripts/util.js"></script>
+
+
+  </body>
+</html>
