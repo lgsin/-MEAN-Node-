@@ -1,7 +1,6 @@
-#如何使用Grunt构建一个中型项目？
+#使用MEAN(MongoDB,ExpressJS,AngualrJS,NodeJS)构建中型系统？
 
-- pubdate: 2013-04-19 10:45
-- author: twinstony
+- author: linshuo
 
 ---
 
@@ -12,7 +11,7 @@
 一切准备就绪，那么就让我们开始吧！
 
 ## 目录结构及说明
-
+```
 app --存储前端东西文件夹
 ├──bower_components //bower模块，在bower.json配置后通过bower install默认存放在该文件夹
 ├──scripts
@@ -34,7 +33,7 @@ views  //存放模版文件，这个项目不使用模板
 package.json  //存储着工程的信息及所需的依赖模块声明
 app.js  
 server.js //启动文件。
-
+```
 ```
 app                                 -- 特定项目特定页面的业务层js都在这里
     app1                            -- 其中的一个项目app1
