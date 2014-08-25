@@ -127,10 +127,12 @@ server.js //启动文件。
 
 *`package.json`文件中可配置的项有：名称(name)、应用描述(description)、版本号(version)、应用的配置项(config)、作者(author)、资源仓库地址(repository)、授权方式(licenses)、目录(directories)、应用入口文件(main)、命令行文件(bin)、应用依赖模块(dependencies)、开发环境依赖模块(devDependencies)、运行引擎(engines)和脚本(scripts)等；*
 
-2. `npm install`<br />  
+**npm install**
+
 在控制台上使用npm install 命令即可安装dependencies上所声明的模块。加载后的模块会被自动放在node_modules文件夹下，可以看到现在node_modules文件夹下多了mongodb和connect-mongo文件夹。<br />
 
-3. `创建数据库配置文件`<br />  
+**settingDB.js**
+
 在根目录下创建settingDB.js文件，用来配置数据库的信息，代码如下：<br />
 
 ```javascript
@@ -142,7 +144,7 @@ module.exports = {
 ```
 *可以看到，我们使用的是模块化开发的形式，用module.exports向外暴露内容供外部调用。*
 
-4. `创建model db.js`<br />  
+**db.js**
 
 我们在根目录下创建models文件夹，用来存储我们自己写的模型。现在，让我们在其中创建一个db.js模型。用来实例化数据库。具体代码如下：
 
@@ -155,7 +157,7 @@ module.exports = new Db(settings.db, new Server(settings.host, Connection.DEFAUL
 ```
 *上面使用require的形式引入我们先前创建的settingDB.js配置文件，其中new Server(settings.host, Connection.DEFAULT_PORT, {})的第一、二分参数分别是IP地址和端口，最后的参数是一个对象用来设置mongodb的一些属性，这里就不适用。最后new Db用来创建一个DB实例。*
 
-5. `安装会话支持配合mongodb`<br />  
+**mongodb**
 
 在config/environments/development.js上引入connect-mongo模块和settingDB,具体代码如下
 
