@@ -14,7 +14,7 @@
 **Mean其首字母分别代表**
 * MongoDB——NoSQL的文档数据库，使用JSON风格来存储数据，非常适合javascript。(JSON是JS数据格式)，甚至也是使用JS来进行sql查询；
 * Express —— 基于Node的Web开发框架；提供有帮助的组件和模块帮助建立一个网站应用。
-* Aagular —— JS的前端开发框架，提供了声明式的双向数据绑定；
+* Angular —— JS的前端开发框架，提供了声明式的双向数据绑定；
 * Node —— 基于V8的运行时环境（JS语言开发），可以构建快速响应、可扩展的网络应用，是一个并发 异步 事件驱动的Javascript服务器后端开发平台。
 
 ## 环境搭建
@@ -66,101 +66,172 @@ app.js
 server.js //启动文件。
 ```
 
-*注1：目录结构是一个很重要的东西，我们在实际项目中要分好文件夹，这样才能在后期查看的时候不会导致到不明白，yeoman帮我们构建的结构我个人觉得是很不错的，针对angualrjs的mv*特性而分成不同文件夹，本来想讲讲文件中内容的，不过可以会太占篇幅，也可能说不明白，所以在项目中陆续讲起吧。*
+*注1：目录结构是一个很重要的东西，我们在实际项目中要分好文件夹，这样才能在后期查看的时候不会导致到不明白，yeoman帮我们构建的结构我个人觉得是很不错的，针对angualrjs的mv\*特性而分成不同文件夹，本来想讲讲文件中内容的，不过可以会太占篇幅，也可能说不明白，所以在项目中陆续讲起吧。*
 
-## MEAN架构实战案例(一)环境搭建
+## 配置数据库模块
 
-首先，示例非常简单，通过点击页面中的按钮，弹出一个窗口。那么我们先把弹窗封装成一个模块吧：
+项目中使用的是MongoDB——NoSQL的文档数据库，使用JSON风格来存储数据，非常适合javascript。使用MongoDB数据库，自然要将该数据库的模块引导项目中，加上一些配置（似乎我们在其他语言也都是这样做的）。
+在NodeJS项目中，用package.json文件来声明项目中使用的模块，这样在新的环境部署时，只要在package.json文件所在的目录执行 npm install 命令即可安装所需要的模块。
 
-```javascript
-define(function(require, exports, module) {
-    var $ = require("jquery");
-    require("./dialog_css.css");
-
-    function Dialog(content, options) {
-        ...
-    }
-    module.exports = Dialog;
-})
-
-```
-可以看到该模块还以相对路径为模块ID，依赖了一个css文件，来修饰窗口的样式。
-
-然后为首页完成业务模块`index.js`：
+1. `package.json`<br />  
+首先需要在package.json这个文件中得”dependencies上加上”"mongodb”: “*”//连接mongodb的插件, “connect-mongo”: “*”//会话支持<br />  
+此时的package.json文件有如下内容<br />  
 
 ```javascript
-define(function (require, exports) {
-    var $ = require("jquery"),
-        Dialog = require("dialog");
-    $("#btnDialog").bind("click", function () {
-        var mapDialog = new Dialog({type: "text", value: 'hello world!', width:'230px', height:'60px'});
-        mapDialog.show();
-    })
-});
-```
-
-现在需要一个开发阶段seajs的配置文件`rootConfig.js`，并将其引入到页面中：
-
-```javascript
-seajs.config({
-    alias:{
-        "jquery":"gallery/jquery/1.8.2/jquery",
-
-        /*弹窗*/
-        "dialog": "styles/component/dialog/src/dialog"
+{
+    "name": "forJob",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node server"
     },
-    debug:1
-});
+    "engines": {
+        "node": ">=0.8.0"
+    },
+    "dependencies": {
+        "express": "3.4.0",
+        "ejs": "*",
+        "mongodb": "*",
+        "connect-mongo": "*"
+    },
+    "devDependencies": {
+        "grunt": "~0.4.1",
+        "grunt-contrib-copy": "~0.4.1",
+        "grunt-contrib-concat": "~0.3.0",
+        "grunt-contrib-coffee": "~0.7.0",
+        "grunt-contrib-uglify": "~0.2.0",
+        "grunt-contrib-compass": "~0.3.0",
+        "grunt-contrib-jshint": "~0.6.0",
+        "grunt-contrib-cssmin": "~0.6.0",
+        "grunt-contrib-connect": "~0.3.0",
+        "grunt-contrib-clean": "~0.4.1",
+        "grunt-contrib-htmlmin": "~0.1.3",
+        "grunt-contrib-imagemin": "~0.1.4",
+        "grunt-contrib-watch": "~0.4.0",
+        "grunt-usemin": "~0.1.11",
+        "grunt-rev": "~0.1.0",
+        "grunt-karma": "~0.4.3",
+        "grunt-open": "~0.2.0",
+        "grunt-concurrent": "~0.3.0",
+        "matchdep": "~0.1.2",
+        "connect-livereload": "~0.2.0",
+        "grunt-google-cdn": "~0.2.0",
+        "grunt-ngmin": "~0.0.2",
+        "grunt-express": "~1.2.1",
+        "time-grunt": "~0.1.1"
+    }
+}
+
 ```
 
-接下来我们来编写展示的页面`index.html`：
+*`package.json`文件中可配置的项有：名称(name)、应用描述(description)、版本号(version)、应用的配置项(config)、作者(author)、资源仓库地址(repository)、授权方式(licenses)、目录(directories)、应用入口文件(main)、命令行文件(bin)、应用依赖模块(dependencies)、开发环境依赖模块(devDependencies)、运行引擎(engines)和脚本(scripts)等；*
 
+2. `npm install`<br />  
+在控制台上使用npm install 命令即可安装dependencies上所声明的模块。加载后的模块会被自动放在node_modules文件夹下，可以看到现在node_modules文件夹下多了mongodb和connect-mongo文件夹。<br />
+
+3. `创建数据库配置文件`<br />  
+在根目录下创建settingDB.js文件，用来配置数据库的信息，代码如下：<br />
+
+```javascript
+module.exports = { 
+  cookieSecret: 'linshuo', 
+  db: 'linshuoDB', 
+  host: 'localhost' 
+};
 ```
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8" />
-    <title></title>
-</head>
-<body>
-<input type="button" id="btnDialog" value="show me the money"/>
-<script src="../../seajs/1.3.1/sea.js"></script>
-<script src="../../rootConfig.js"></script>
-<script type="text/javascript">
-    seajs.use("../../app/app1/index/src/index.js")
-</script>
-</body>
-</html>
+*可以看到，我们使用的是模块化开发的形式，用module.exports向外暴露内容供外部调用。*
+
+4. `创建model db.js`<br />  
+
+我们在根目录下创建models文件夹，用来存储我们自己写的模型。现在，让我们在其中创建一个db.js模型。用来实例化数据库。具体代码如下：
+
+```javascript
+var settings = require('../settingDB'),
+    Db = require('mongodb').Db,
+    Connection = require('mongodb').Connection,
+    Server = require('mongodb').Server;
+module.exports = new Db(settings.db, new Server(settings.host, Connection.DEFAULT_PORT, {}), {safe: true});
 ```
+*上面使用require的形式引入我们先前创建的settingDB.js配置文件，其中new Server(settings.host, Connection.DEFAULT_PORT, {})的第一、二分参数分别是IP地址和端口，最后的参数是一个对象用来设置mongodb的一些属性，这里就不适用。最后new Db用来创建一个DB实例。*
 
-这时候运行刚刚完成的`index.html`，一切顺利的话，应该已经可以看到弹窗的效果了。
-OK，前面的这些就是我们在开发阶段使用seajs的工作。接下来就是构建部分了。
+5. `安装会话支持配合mongodb`<br />  
 
-## 构建
+在config/environments/development.js上引入connect-mongo模块和settingDB,具体代码如下
+
+```javascript
+var MongoStore = require('connect-mongo')(express),
+    settingDB = require('../../settingDB');
+module.exports = function (app) {
+//...
+ app.use(express.session({
+          secret: settingDB.cookieSecret,
+          key: settingDB.db,
+          cookie: {maxAge: 1000 * 60 * 60 * 24 * 30},//30 天
+          store: new MongoStore({
+            db: settingDB.db
+          })
+        }));
+```
+express.session()提供了会话支持<br />
+secret用于防止篡改cookie<br />
+key 的值为 cookie 的名字<br />
+cookie 的 maxAge 值设定cookie的生存期，我们设置 cookie 的生存期为30天<br />
+设置它的 store 参数为 MongoStore 实例，把会话信息存储到数据库中，以避免丢失。<br />
+我们可以通过 req.session 获取当前用户的会话对象，以维护用户相关的信息。<br />
+
+到此，我们就把数据库模块已经整理好了，此时在控制台上使用grunt server启动项目还不能创建到数据库，可怎么测试到是否连接号数据库了呢？其实只要调用mongo的方法，在程序中为数据库添加数据时，自然就创建了，具体实现会在接下文章中讲到。<br />
+
+#### 总结
+   数据库配置这一块，因为我们将配置文件和程序分开，分别写成settingDB.js和db.js，这样写为以后修改有很大帮助，个人觉得应该提倡。不过要注意的是在文件引用的时候，要注意写好路径，不过这应该也不是很大问题，毕竟搞程序必须的嘛，好啦，今天就讲这些。
+
+## 以注册为例打通整个项目
 
 **package.json**
 
-首先，如果你不是最近才用seajs的话，应该对`package.json`不陌生，而且里面很可能也像我一样，定义了好多`alias`，
-现在我们依然可以用上她们,这里为了能跟以后的spm2兼容做了些小的修改：
+前不久我们讲了项目工程文件目录的简单介绍，还有就是配置数据库，今天我们就来试试这个数据库到底连接上没有，还有就是大体上打通整个项目的框架，整体来说，就是从前端路由判断 `app.js`->`页面展示login.html`->`提交表单至后台路由index.js`->`后台路由判断并调用UserModel(user.js)来将数据插入到数据库中`->`成功插入则跳转到主页main.html`
 
-1. `root`->`family`
-2. `alias`->`spm.alias`
+恩，让我们一步一步来，好的开始是成功的一半，希望我能把这一开始讲好，书写好。
+
+首先我们要先我们来简单扫一下app文件夹下得index.html的内容，源码如下
 
 ```
-{
-    "family": "test",
-    "version": "0.0.1",
-    "name": "gruntTest",
-    "spm": {
-        "alias": {
-            "jquery": "gallery/jquery/1.8.2/jquery",
-            "dialog": "dist/styles/component/dialog/src/dialog"
-        }
-    },
-    "devDependencies": {
-        "grunt": "~0.4.1"
-    }
-}
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <!-- build:css({.tmp,app}) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/lib/normalize.css">
+    
+    <!-- endbuild -->
+  </head>
+  <body ng-app="nApp">
+    <!-- Add your site or application content here -->
+    <div class="container" ng-view=""></div>
+
+    <!-- Libraries -->
+    <script src="bower_components/jquery/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    
+
+    <!-- build:js scripts/modules.js -->
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>
 ```
 
 ---
