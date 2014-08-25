@@ -66,7 +66,7 @@ app.js
 server.js //启动文件。
 ```
 
-*注1：目录结构是一个很重要的东西，我们在实际项目中要分好文件夹，这样才能在后期查看的时候不会导致到不明白，yeoman帮我们构建的结构我个人觉得是很不错的，针对angualrjs的mv\*特性而分成不同文件夹，本来想讲讲文件中内容的，不过可以会太占篇幅，也可能说不明白，所以在项目中陆续讲起吧。*
+*注1：目录结构是一个很重要的东西，我们在实际项目中要分好文件夹，这样才能在后期查看的时候不会导致到不明白，yeoman帮我们构建的结构我个人觉得是很不错的，针对angualrjs的mvvm特性而分成不同文件夹，本来想讲讲文件中内容的，不过可以会太占篇幅，也可能说不明白，所以在项目中陆续讲起吧。*
 
 ## 配置数据库模块
 
@@ -318,6 +318,7 @@ cookie 的 maxAge 值设定cookie的生存期，我们设置 cookie 的生存期
         <input href="###" type="submit" class="loginBox_submit" value="注册">
     </form>
 </div>
+```
 
 *很简单的一个表单,ng-submit指令给它指定一个提交表单时的回调函数，但表单被提交时则会触发这个回调函数，此处为form.submit()，方法写于与login.html对应的loginCtr内。这个指令也会自动阻止浏览器处理其默认的GET行为。
 angualrjs这些ng指令在这里不详细展开，有问题的可以看我写的angualrjs系列，或查一下其他方面的资料。login.html建好了。我们来看一下app.js里面内容吧。
@@ -434,7 +435,10 @@ User.prototype = {
         }) 
       }
   }
+```
+  
 接着，我们在index.js中实例化(req.body表示post请求过来的参数)这个userModel并调用它的save方法，进行用户注册，具体代码如下
+```
 
 var User = require('../models/user.js');
 module.exports = function (app) {
