@@ -190,7 +190,8 @@ cookie 的 maxAge 值设定cookie的生存期，我们设置 cookie 的生存期
 ## 以注册为例打通整个项目
 
 
-前不久我们讲了项目工程文件目录的简单介绍，还有就是配置数据库，今天我们就来试试这个数据库到底连接上没有，还有就是大体上打通整个项目的框架，整体来说，就是从前端路由判断 `app.js`->`页面展示login.html`->`提交表单至后台路由index.js`->`后台路由判断并调用UserModel(user.js)来将数据插入到数据库中`->`成功插入则跳转到主页main.html`
+前不久我们讲了项目工程文件目录的简单介绍，还有就是配置数据库，今天我们就来试试这个数据库到底连接上没有，还有就是大体上打通整个项目的框架。<br />
+整体来说，就是从前端路由判断 `app.js`->`页面展示login.html`->`提交表单至后台路由index.js`->`后台路由判断并调用UserModel(user.js)来将数据插入到数据库中`->`成功插入则跳转到主页main.html`
 
 恩，让我们一步一步来，好的开始是成功的一半，希望我能把这一开始讲好，书写好。
 
@@ -235,4 +236,228 @@ cookie 的 maxAge 值设定cookie的生存期，我们设置 cookie 的生存期
   </body>
 </html>
 ```
+首先是这段用ng-app声明angualrjs的作用域为body，即angualrjs的作用域在整个页面上，当然，我们也可以修改，不过等我们后边有这个需求的时候再修改就行了。还有就是
+
+这小段代码内的ng-view吧~其实，这正好就是angualrjs帮我们预备好的东西了，即在含有ng-view属性的节点上。我们的子视图将会在此处被引入进来。所以到时候这一层div会包裹在我们将自己写的界面上，所以我们并不需要再书写header body之类的，我们只需要写加载在中间的那一块。
+简单理解过后，然后我们来创建我们的login.html。我们将html文件放在app/view下。此处暂css也写在这个页面上。代码如下：
+```
+<style>
+    body{
+        background: rgba(0,0,0,.8);
+    }
+    .loginBox{
+        width: 300px;
+        height: 260px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -150px;
+        margin-top: -135px;
+        background: hsl(184, 1%, 37%);
+        border-radius: 8px;
+        text-align: center;
+
+    }
+    .loginBox input{
+        width: 80%;
+        height: 40px;
+        border-radius: 5px;
+        margin-top: 26px;
+        font-size: 17px;
+        border: 0;
+        padding-left: 11px;
+    }
+    .loginBox_header{
+        height: 40px;
+        background-color:hsla(0, 0%, 133%, 0.8);
+        text-align: right;
+        border-top-right-radius: 7px;
+        border-top-left-radius: 7px;
+        
+    }
+    .loginBox_header a{
+        color: rgba(10, 10, 10, 0.5);
+        font-size: 20px;
+        line-height: 40px;
+        padding-right: 6px;
+        transition:all .2s ease-in-out 0s;
+    }
+    .loginBox_header a:hover{
+        color: rgba(10, 10, 10, 0.9);
+    }
+    .loginBox .loginBox_submit{
+        display: inline-block;
+        border-radius: 10px;
+        text-align: center;
+        height: 40px;
+        width: 90%;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        margin-left: -45%;
+        background: hsla(0, 0%, 0%, 0.5);
+        font-size: 1.5em;
+        line-height: 36px;
+        text-decoration: none;
+        box-shadow: inset 0px -1px 0px hsla(0, 10%, 62%, 0.3);
+        color: hsla(0, 0%, 77%, 0.5);
+        transition:all .2s ease-in-out 0s;
+    }
+    .loginBox_submit:hover{
+        color: hsla(0, 0%, 77%, 1);
+        background: hsla(0, 6%, 18%, 1);
+    }
+</style>
+<div class="loginBox">
+    <div class="loginBox_header">
+        <a href="">切换登录</a>
+    </div>
+    <form id="post" ng-submit="form.submit()">
+        <input type="text" name="userName" ng-model="form.name" id="userName" placeholder="请输入用户名">
+        <input type="text" name="pwd"  ng-model="form.password" id="pwd" placeholder="请输入密码">
+        <input href="###" type="submit" class="loginBox_submit" value="注册">
+    </form>
+</div>
+
+*很简单的一个表单,ng-submit指令给它指定一个提交表单时的回调函数，但表单被提交时则会触发这个回调函数，此处为form.submit()，方法写于与login.html对应的loginCtr内。这个指令也会自动阻止浏览器处理其默认的GET行为。
+angualrjs这些ng指令在这里不详细展开，有问题的可以看我写的angualrjs系列，或查一下其他方面的资料。login.html建好了。我们来看一下app.js里面内容吧。
+我们删除原来的*
+
+```
+.when('/', {
+                templateUrl: 'views/main.html',
+                controller: 'MainCtrl'
+            })
+```
+
+并添加我们自己的路由判断规则，完整代码如下
+
+```
+'use strict';
+(function(){
+    var app = angular.module('nApp', []);
+    app.config(function ($routeProvider) {
+        $routeProvider
+            .when('/', {
+                templateUrl: 'views/login.html',
+                controller: 'loginCtrl'
+            })
+            .when('/main', {
+                templateUrl: 'views/main.html',
+              //controller: 'mainCtrl'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+    });
+
+}.call(this));
+
+```
+
+简单解释一下，angualrjs使用了$routeProvider自带的路由选择器来进行路由判读，就如
+
+```
+.when('/', {
+                templateUrl: 'views/login.html',
+                controller: 'loginCtrl'
+            })
+
+```
+
+angularjs通过地址栏进行导航的深度链接（deeplinking ），也就成就了我们的路由机制，通过这样路由机制，一个单页应用的各个视图的组织起来了。上面的语法是，当url#后面为/时（http://localhost:3000/#/），将使用的模板路径为’views/login.html’，使用的controller为’loginCtrl’<br/>
+
+接着，我们就来书写我们的loginCtrl吧！controller的内容在app/scripts/controllers/main.js中，一样的，也可以放在别处，这里为了方便先在这main.js内。我们把MainCtrl删除掉，并添加我们自己的Ctrl.详细代码如下
+```
+'use strict';
+
+angular.module('nApp')
+  .controller('loginCtrl', function ($scope,$http,$location) {
+   $scope.form = {};   // 初始化一个NG数据模型
+    // 提交操作函数
+    $scope.form.submit = function () {
+        //使用$http内置服务提交POST请求，请求路径为'/api/login'，参数为$scope.form
+        $http.post('/api/login', $scope.form).success(function () {
+            //成功返回时，转到url为/main上
+            $location.url('/main'); 
+        });
+    };
+  });
+```
+有了上面的注释，相信能看得清除一些。这些都是angualrjs的内容，可以查看我写的angualrjs目录下的内容。
+我们看到我们提交了POST请求，到’/api/login’这个路径下。这个post请求会被后台的路由接收到，即在routes/index.js中进行判断。
+这里我们先创建我们的userModel,用来与数据库交互用的。具体代码如下
+```
+var mongodb = require('./db');
+function User(user){ 
+  this.name = user.name; 
+  this.password = user.password; 
+  this.address = user.address;  
+  this.school=user.school; 
+  this.info=user.info
+}; 
+module.exports = User; 
+User.prototype = {
+    //保存一个用户
+    //callback 是执行玩保存后的回调函数
+    save : function(callback){ 
+              var user = { 
+                  name: this.name, 
+                  password: this.password, 
+                  //下面内容在注册时不用填，在个人首页可以修改，所以先设置默认值和默认头像
+                  address:"暂无",
+                  school:"暂无",
+                  info:"暂无"
+              }; 
+              //打开数据库
+              mongodb.open(function(err,db){ 
+                //如果打开出错，err会有出错信息，否则为null
+                if(err){ 
+                  //将注册信息错误信息作为参数返回给回调函数
+                  return callback(err); 
+                } 
+                //连接数据库中的名为user的表，没有就创建
+                db.collection('user',function(err,collection){ 
+                //连接失败会将错误信息返回给回调函数，并且关闭数据库连接
+                if(err){ 
+                  mongodb.close(); 
+                  return callback(err); 
+                } 
+               //插入新的数据
+                collection.insert(user,{safe: true},function(err,result){ 
+                //不管是否成功都关闭数据库
+                mongodb.close(); 
+                //如果错误err有错误信息，将err和user返回给回调函数
+                callback(err, user);//成功！返回插入的用户信息 
+            }); 
+          }); 
+        }) 
+      }
+  }
+接着，我们在index.js中实例化(req.body表示post请求过来的参数)这个userModel并调用它的save方法，进行用户注册，具体代码如下
+
+var User = require('../models/user.js');
+module.exports = function (app) {
+    app.get('/', function (req, res, next) {
+        res.render('index');
+    });
+    app.post('/api/login',function(req,res){
+        var newUser = new User(req.body);
+           newUser.save(function(err,user){ 
+                if(err){ 
+                  req.flash('error',err); 
+                  return res.redirect('/'); 
+                } 
+                //成功后，将用户信息记录在页面间的会话req.session中，并且跳转到一个新页面，就是内容集中展示页面
+                req.session.user = user; 
+                res.json({status: 'done'});
+            }); 
+        }); 
+    };
+```
+成功返回时则进入/main，在前端路由进行判断后，进入到main.html上。下面贴出main.html上代码，如果你最终看到”这是主页”这四个大字，那么恭喜你，比我聪明的打通了整一块。
+
+#### 总结
+
+到此，注册这一块就结束了，希望在观看的你对这整个过程能好好理解一下，后期我们做的，其实都是基于这样的一个流程来走的，开始很难，慢慢走，走好就最重要，加油。
 
