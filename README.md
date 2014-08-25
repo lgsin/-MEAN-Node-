@@ -12,31 +12,29 @@
 ## 前言
 在这里我就不讲angularjs和nodejs的基础知识了。因为这是实战篇嘛，整个项目将采用如标题所示的MEAN架构①希望能写成一个系列，是记录我开发整个流程。
 ```
-**Mean其首字母分别代表：**
-*MongoDB——NoSQL的文档数据库，使用JSON风格来存储数据，非常适合javascript。(JSON是JS数据格式)，甚至也是使用JS来进行sql查询；
-*Express —— 基于Node的Web开发框架；提供有帮助的组件和模块帮助建立一个网站应用。
-*Aagular —— JS的前端开发框架，提供了声明式的双向数据绑定；
-*Node —— 基于V8的运行时环境（JS语言开发），可以构建快速响应、可扩展的网络应用，是一个并发 异步 事件驱动的Javascript服务器后端开发平台。
+** Mean其首字母分别代表：**
+* MongoDB——NoSQL的文档数据库，使用JSON风格来存储数据，非常适合javascript。(JSON是JS数据格式)，甚至也是使用JS来进行sql查询；
+* Express —— 基于Node的Web开发框架；提供有帮助的组件和模块帮助建立一个网站应用。
+* Aagular —— JS的前端开发框架，提供了声明式的双向数据绑定；
+* Node —— 基于V8的运行时环境（JS语言开发），可以构建快速响应、可扩展的网络应用，是一个并发 异步 事件驱动的Javascript服务器后端开发平台。
 ## 环境搭建
-**Node环境搭建**
+** Node环境搭建 **
 1. `Node环境搭建`<br />  
 Nodejs框架是基于V8的引擎，是目前速度最快的Javascript引擎。让我们先搭建nodejs的开发环境，在官网上http://www.nodejs.org 上install安装到本机，现在的node都集成了npm模块，所以我们可以很方便的使用它。<br />  
 2. `安装MongoDB`<br />  
 安装mongodb也可以在其官网http://www.mongodb.org上DownLoad下来安装，在mac下安装很简单的，启动的话，到Mongodb文件夹目录/bin 找到mongod 双击运行就可以了，可以设置成自动启动，具体的我在这里就不讲了，大家可以百度一下.<br />  
 3. `使用Yeoman构建项目`<br />  
 Yeoman简单介绍:Yeoman是通过Grunt和Bower的包装为开发者创建一个易用的工作流。主要有三部分组成：yo（脚手架工具）、grunt（构建工具）、bower（包管理器）。这三个工具是分别独立开发的，但是需要配合使用，来实现我们高效的工作流模式。<br />  
-```
 我们将使用Yeoman来快速搭建我们的项目架构
 * 1.安装yeoman
 sudo npm install -g yo
-2.安装生成器
+* 2.安装生成器
 npm install -g generator-meanstack
-3.创建并进入文件中,生成项目
+* 3.创建并进入文件中,生成项目
 yo meanstack
-4.运行项目
+* 4.运行项目
 grunt server(若无安装grunt,则先执行sudo npm install -g grunt
-5.访问http://localhost:3000（或已自动弹出）
-```
+* 5.访问http://localhost:3000（或已自动弹出）
 
 4. `安装MongoDB`
 
