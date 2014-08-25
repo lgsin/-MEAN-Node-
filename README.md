@@ -20,7 +20,7 @@
 
 ## 环境搭建
 
-** Node环境搭建 **
+### Node环境搭建 
 
 1. `Node环境搭建`<br />  
 Nodejs框架是基于V8的引擎，是目前速度最快的Javascript引擎。让我们先搭建nodejs的开发环境，在官网上http://www.nodejs.org 上install安装到本机，现在的node都集成了npm模块，所以我们可以很方便的使用它。<br />  
