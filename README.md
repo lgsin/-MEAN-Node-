@@ -4,7 +4,7 @@
 
 ---
 
-本文前提是你已经了解了[seajs](http://seajs.org "seajs")和[grunt](http://gruntjs.com/ "grunt")。
+本文前提是你已经了解了[angualrjs]http://linshuo.sinaapp.com/?p=245 "angularjs")和[grunt](http://gruntjs.com/ "grunt")。
 
 阅读的同时可参照完整示例：    [seajs-grunt-build](https://github.com/twinstony/seajs-grunt-build "seajs-grunt-build")
 
