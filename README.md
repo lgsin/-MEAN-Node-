@@ -4,12 +4,19 @@
 
 ---
 
-本文前提是你已经了解了[angualrjs]http://linshuo.sinaapp.com/?p=245 "angularjs")和[grunt](http://gruntjs.com/ "grunt")。
+本文前提是你已经了解了[angualrjs](http://linshuo.sinaapp.com/?p=245 "angularjs")和[grunt](http://gruntjs.com/ "grunt")。
 
 阅读的同时可参照完整示例：    [seajs-grunt-build](https://github.com/twinstony/seajs-grunt-build "seajs-grunt-build")
 
 一切准备就绪，那么就让我们开始吧！
+## 前言
+近期一直在琢磨着一些新的东西，像很火的前端mv*框架angularjs，好好研究了一把后便想实战一番，本想着是用比较熟悉的java来做后台，但心里就是纠结，突然间想到用之前了解过nodejs来试试，结合这个新学的前端框架，进行学习（orz，其实无非就是被使用javascript语言来的nodejs吸引了，哈哈，我这个js迷~）在这里我就不讲angularjs和nodejs的基础知识了。因为这是实战篇嘛，整个项目将采用如标题所示的MEAN架构①希望能写成一个系列，是记录我开发整个流程。
 
+①Mean其首字母分别代表：
+MongoDB——NoSQL的文档数据库，使用JSON风格来存储数据，非常适合javascript。(JSON是JS数据格式)，甚至也是使用JS来进行sql查询；
+Express —— 基于Node的Web开发框架；提供有帮助的组件和模块帮助建立一个网站应用。
+Aagular —— JS的前端开发框架，提供了声明式的双向数据绑定；
+Node —— 基于V8的运行时环境（JS语言开发），可以构建快速响应、可扩展的网络应用，是一个并发 异步 事件驱动的Javascript服务器后端开发平台。。
 ## 目录结构及说明
 ```
 app --存储前端东西文件夹
@@ -34,42 +41,11 @@ package.json  //存储着工程的信息及所需的依赖模块声明
 app.js  
 server.js //启动文件。
 ```
-```
-app                                 -- 特定项目特定页面的业务层js都在这里
-    app1                            -- 其中的一个项目app1
-        index                       -- app1中的首页
-            src
-                index.js            -- 业务模块
-gallery                             -- base模块，spm提供的已经以CMD格式封装好的通用库都在这里
-    jquery
-        1.8.2
-            jquery.js
-html                                -- 项目页，真实的项目路径可能不在这里，将它放在这里权当是例子方便
-    index
-        index.html
-node_modules                        -- grunt及其所需插件。注1
-    grunt                           -- grunt
-    grunt-cmd-concat                -- 依赖合并
-    grunt-cmd-transport             -- 提取依赖并设置模块ID
-    grunt-contrib-clean             -- 删除临时文件
-    grunt-contrib-uglify            -- 压缩
-seajs                               -- seajs
-    1.3.1                           -- 由于我目前参与的项目全部卡在构建，故暂未升级到2.0
-        seajs.js
-styles                              -- 自定义模块
-    component                       -- 这层结构的目的是可以将不同用途的模块区分，比如ui,util等
-        dialog
-            src
-                dialog.js
-                dialog_css.css
-Gruntfile.js                        -- grunt配置文件
-package.json                        -- 项目配置文件，该文件内容可以在grunt中引用
-rootConfig.js                       -- 开发环境下使用的seajs配置文件
-```
+
 
 *注1：由于近期concat和transport变化较快，有些配置可能随新版本的发布而不可用，固提交个与例子相符的版本在这里。*
 
-## 模块
+## MEAN架构实战案例(一)环境搭建
 
 首先，示例非常简单，通过点击页面中的按钮，弹出一个窗口。那么我们先把弹窗封装成一个模块吧：
 
