@@ -12,12 +12,14 @@
 ## 前言
 
 在这里我就不讲angularjs和nodejs的基础知识了。因为这是实战篇嘛，整个项目将采用如标题所示的MEAN架构①希望能写成一个系列，是记录我开发整个流程。
-** Mean其首字母分别代表：**
+**Mean其首字母分别代表**
 * MongoDB——NoSQL的文档数据库，使用JSON风格来存储数据，非常适合javascript。(JSON是JS数据格式)，甚至也是使用JS来进行sql查询；
 * Express —— 基于Node的Web开发框架；提供有帮助的组件和模块帮助建立一个网站应用。
 * Aagular —— JS的前端开发框架，提供了声明式的双向数据绑定；
 * Node —— 基于V8的运行时环境（JS语言开发），可以构建快速响应、可扩展的网络应用，是一个并发 异步 事件驱动的Javascript服务器后端开发平台。
+
 ## 环境搭建
+
 ** Node环境搭建 **
 1. `Node环境搭建`<br />  
 Nodejs框架是基于V8的引擎，是目前速度最快的Javascript引擎。让我们先搭建nodejs的开发环境，在官网上http://www.nodejs.org 上install安装到本机，现在的node都集成了npm模块，所以我们可以很方便的使用它。<br />  
