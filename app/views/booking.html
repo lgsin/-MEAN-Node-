@@ -7,8 +7,9 @@
 </div>
 <table>
 	<tr>
-		<th>预订人</th>
-		<th>上车时间</th>
+		<th>姓名</th>
+		<th>电话</th>
+		<th>时间</th>
 		<th>上车地点</th>
 		<th>下车地点</th>
 		<th>价格</th>
@@ -16,6 +17,7 @@
 	</tr>
 	<tr ng-repeat="ticket in tickets">
 		<td>{{ticket.name}}</td>
+		<td>{{ticket.phone}}</td>
 		<td>{{ticket.date}}</td>
 		<td>{{ticket.beginP}}</td>
 		<td>{{ticket.endP}}</td>

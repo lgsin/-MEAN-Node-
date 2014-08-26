@@ -5,39 +5,12 @@ angular.module('nApp')
   /*
    * '/' index.html indexCtr
    */
-  .controller('indexCtr', ['$scope',
-    function ($scope) {
-      $scope.placeList = [{
-          page_id: 1,
-          title: "东航或国航，零利润预售中",
-          price: "1232",
-          img: "images/1.jpg"
-        },{
-          page_id: 2,
-          title: "b",
-          price: "123",
-          img: "images/2.jpg"
-        },{
-          page_id: 3,
-          title: "b",
-          price: "123",
-          img: "images/3.jpg"
-        },{
-          page_id: 4,
-          title: "b",
-          price: "123",
-          img: "images/4.jpg"
-        },{
-          page_id: 5,
-          title: "b",
-          price: "123",
-          img: "images/5.jpg"
-        },{
-          page_id: 6,
-          title: "b",
-          price: "123",
-          img: "images/6.jpg"
-        }];
+  .controller('indexCtr', ['$scope','$http',
+    function ($scope,$http) {
+      // 获取 已有公司
+      $http.get('/api/getCompany').success(function(data) {
+        $scope.hadCompanys = data.companys;
+      })
 
   }])
 
@@ -46,6 +19,8 @@ angular.module('nApp')
    */
   .controller('pageDetailCtr', ['$scope','$routeParams','$http','$rootScope',
     function ($scope,$routeParams,$http,$rootScope) {
+      console.log($routeParams.id) 
+
       //起始地点
       $scope.placesBegin= [{
         placeBeginId: 1,
@@ -76,71 +51,7 @@ angular.module('nApp')
         placeIntr: "广州东站广州东站广州东站广州东站广州东."
       }];
 
-      //路线
-      $scope.paths= [{
-        pathId: 1,
-        date: '2014/5/6',
-        beginP: '广州北',
-        endP: '揭阳市',
-        ticket: 13,
-        price: '￥120'
-      },{
-        pathId: 1,
-        date: '2014/5/61',
-        beginP: '广州北',
-        endP: '揭阳市',
-        ticket: 13,
-        price: '￥120'
-      },{
-        pathId: 1,
-        date: '2014/5/6',
-        beginP: '广州东',
-        endP: '揭阳市',
-        ticket: 13,
-        price: '￥120'
-      },{
-        pathId: 1,
-        date: '2014/5/6',
-        beginP: '广州东',
-        endP: '揭阳市',
-        ticket: 13,
-        price: '￥120'
-      },{
-        pathId: 1,
-        date: '2014/5/6',
-        beginP: '广州东',
-        endP: '揭阳市',
-        ticket: 13,
-        price: '￥120'
-      },{
-        pathId: 1,
-        date: '2014/5/6',
-        beginP: '广州东',
-        endP: '揭阳市',
-        ticket: 13,
-        price: '￥120'
-      },{
-        pathId: 1,
-        date: '2014/5/6',
-        beginP: '广州东',
-        endP: '揭阳市',
-        ticket: 13,
-        price: '￥120'
-      },{
-        pathId: 1,
-        date: '2014/5/6',
-        beginP: '广州东',
-        endP: '揭阳市',
-        ticket: 13,
-        price: '￥120'
-      },{
-        pathId: 1,
-        date: '2014/5/6',
-        beginP: '广州东',
-        endP: '揭阳市',
-        ticket: 13,
-        price: '￥120'
-      }]
+    
 
       // 初始化 起始站和终点站
       $scope.queryBeginP = '';
@@ -177,26 +88,37 @@ angular.module('nApp')
               userId : $rootScope.user._id,
               bookingId: $scope.hadFriends[i]._id,
               name: $scope.hadFriends[i].name,
-              beginP: $scope.selectedPath.beginP,
-              endP: $scope.selectedPath.endP,
-              date: $scope.selectedPath.date,
-              price: $scope.selectedPath.price
+              phone: $scope.hadFriends[i].phone,
+              beginP: $scope.selectedPath.beginName,
+              endP: $scope.selectedPath.endName,
+              date: $scope.selectedPath.time,
+              price: $scope.selectedPath.price,
+              companyId: $scope.selectedPath.companyId
             }
             // 异步请求导致 db object already connecting, open cannot be called multiple times
             // setTimeout(function(){
+
                 $http.post('/api/bookTicket', bookingTicket).success(function(){
                 console.log("买票成功")
+                console.log($scope.selectedPath.companyId);
+                console.log(bookingTicket)
               })
             //  },10000)
             
           };
         };
       }
-      // 获取 已有联系人
-      $http.get('/api/getFriends/' + $rootScope.user._id).success(function(data) {
-        $scope.hadFriends = data.friends;
-        $scope.hadFriends.unshift($rootScope.user)
+      // 获取 对应公司的所有路线
+      $http.get('/api/getPaths/' + $routeParams.id).success(function(data) {
+        console.log(data)
+        $scope.paths = data.paths;
+          // 获取 已有联系人
+          $http.get('/api/getFriends/' + $rootScope.user._id).success(function(data) {
+            $scope.hadFriends = data.friends;
+            $scope.hadFriends.unshift($rootScope.user)
+          })
       })
+     
 
       //  添加联系人
       $scope.newFriend = {
@@ -243,41 +165,12 @@ angular.module('nApp')
   /*
    * '/myTicket/booked' booked.html bookiedCtr
    */
-  .controller('bookedCtr', function ($scope,$http,$location) {
-      //路线
-      $scope.paths= [{
-        pathId: 1,
-        date: '2014/5/6',
-        beginP: '广州北',
-        endP: '揭阳市',
-        userName: '小明',
-        phone: '18825188888',
-        price: '￥120'
-      },{
-        pathId: 1,
-        date: '2014/5/61',
-        beginP: '广州北',
-        endP: '揭阳市',
-        userName: '小明',
-        phone: '18825188888',
-        price: '￥120'
-      },{
-        pathId: 1,
-        date: '2014/5/6',
-        beginP: '广州东',
-        endP: '揭阳市',
-        userName: '小明',
-        phone: '18825188888',
-        price: '￥120'
-      },{
-        pathId: 1,
-        date: '2014/5/6',
-        beginP: '广州东',
-        endP: '揭阳市',
-        userName: '小明',
-        phone: '18825188888',
-        price: '￥120'
-      }]
+  .controller('bookedCtr', function ($scope,$http,$location,$rootScope ) {
+      //  曾买票
+      $http.get('/api/getBookingTicket/' + $rootScope.user._id).success(function(data) {
+        $scope.Oldtickets = data.tickets;
+      });
+
   })
 
   /*
@@ -341,5 +234,63 @@ angular.module('nApp')
             $location.url('/main'); 
         });
     };
+  })
+   /*
+   * '/company/mes' company.html mesCompanyCtr
+   */
+  .controller('mesCompanyCtr', function ($scope,$http,$location,$rootScope) {
+    $scope.newCompany = $rootScope.newCompany; 
+    $scope.userUpdate = function() {
+        $http.post('/api/registCompany', $scope.newCompany).success(function (data) {
+          console.log($scope.newCompany+":data"+data)
+          console.log($scope.newCompany)
+          $rootScope.newCompany = $scope.newCompany = data.newCompany;
+        })
+    }
+    // 获取 已有路线
+      $http.get('/api/getPaths/' + $rootScope.newCompany._id).success(function(data) {
+        console.log($rootScope.newCompany._id)
+        console.log(data)
+
+        $scope.hadPaths = data.paths;
+      })
+
+      //  删除 已有路线
+      $scope.deletePath = function (index) {
+        $http.post('/api/deletePath',{pathId: $scope.hadPaths[index]._id}).success(function(data)  {
+          console.log(data);
+          $scope.hadPaths.splice(index,1);
+        })
+
+      }
+
+      //  修改已有联系人
+      $scope.updateFri = function (index) {
+
+      }
+
+      //  添加 路线
+      $scope.newPath = {
+        companyId : $rootScope.newCompany._id
+      };
+      $scope.addPath = function(){
+        $http.post('/api/addPath', $scope.newPath).success(function (data) {
+          $scope.hadPaths.push($scope.newPath);
+           $scope.newPath = {
+            companyId : $rootScope.newCompany._id
+          };
+        })
+      }
+  })
+   /*
+   * '/company/booked' companyBooked.html companyBookedCtr
+   */
+  .controller('companyBookedCtr', function ($scope,$http,$location,$rootScope ) {
+      //  收到订票
+      $http.get('/api/companyGetBookingTicket/' + $rootScope.newCompany._id).success(function(data) {
+        console.log(data)
+        $scope.companyTickets = data.tickets;
+      });
+
   })
 ;

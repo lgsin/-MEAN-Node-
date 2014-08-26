@@ -10,6 +10,9 @@ function Ticket(ticket){
   this.endP = ticket.endP ? ticket.endP : ""; 
   this.date = ticket.date ? ticket.date : ""; 
   this.price = ticket.price ? ticket.price : ""; 
+  this.phone = ticket.phone ? ticket.phone : ""; 
+  this.companyId = ticket.companyId ? ticket.companyId : ""; 
+
 }; 
 module.exports = Ticket; 
 Ticket.prototype = {
@@ -90,5 +93,30 @@ Ticket.prototype = {
           });
         });   
       })
-    }
+    },
+
+        //  商家 获得 已预定的票
+    companyGetBookingTicket : function(companyId,callback){
+      //打开数据库 
+      mongodb.open(function(err, db){ 
+        if(err){ 
+          return callback(err); 
+        } 
+        //读取 ticket 集合 
+        db.collection('ticket', function(err, collection){ 
+          if(err){ 
+            mongodb.close(); 
+            return callback(err); 
+          } 
+          collection.find({companyId: companyId}).toArray(function(err,items){
+            if(err) {
+                throw err; 
+              }else{//如果数据库没有内容
+                mongodb.close();
+                return callback(err,items);
+              } 
+            }); 
+          }); 
+      }); 
+    },
   }

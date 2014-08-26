@@ -36,6 +36,15 @@
                 templateUrl: 'views/mesPeople.html',
                 controller: 'mesPeopleCtr'
             })
+            /* 商家模块 */
+             .when('/company/mes', {
+                templateUrl: 'views/company.html',
+                controller: 'mesCompanyCtr'
+            })
+            .when('/company/booked', {
+                templateUrl: 'views/companyBooked.html',
+                controller: 'companyBookedCtr'
+            })
             .otherwise({
                 redirectTo: '/'
             });

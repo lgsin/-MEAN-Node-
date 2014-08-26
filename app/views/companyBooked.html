@@ -1,0 +1,22 @@
+<div class="title-show select-result">
+	
+	<h2>已完成订单</h2>
+</div>
+<table>
+	<tr>
+		<th>预订人</th>
+		<th>上车时间</th>
+		<th>上车地点</th>
+		<th>下车地点</th>
+		<th>价格</th>
+		<th>联系人电话</th>
+	</tr>
+	<tr ng-repeat="companyTicket in companyTickets">
+		<td>{{companyTicket.name}}</td>
+		<td>{{companyTicket.date}}</td>
+		<td>{{companyTicket.beginP}}</td>
+		<td>{{companyTicket.endP}}</td>
+		<td>{{companyTicket.price}}</td>
+		<td>{{companyTicket.phone}}</td>
+	</tr>
+</table>

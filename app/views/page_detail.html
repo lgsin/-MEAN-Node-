@@ -7,7 +7,7 @@
 			</div>
 			<div class="dialog-main">
 				<h3>已选择路线</h3>
-				<p><span>{{selectedPath.beginP}}->{{selectedPath.endP}}</span>[<span>{{selectedPath.date}}</span>]<span>{{selectedPath.price}}</span></p>
+				<p><span>{{selectedPath.beginName}}->{{selectedPath.endName}}</span>[<span>{{selectedPath.time}}</span>]<span>单价：{{selectedPath.price}}</span></p>
 
 				<h3>选择已有联系人</h3>
 				<label ng-repeat="hadFriend in hadFriends" style="margin-right:14px;">{{hadFriend.name}}<input type="checkbox" ng-click="toggle($index)"></label>
@@ -125,12 +125,13 @@
 							<th>剩余票数</th>
 							<th>操作</th>
 						</tr>
-						<tr ng-repeat="path in paths | filter : {beginP: queryBeginP, endP: queryEndP}">
-							<td>{{path.date}}</td>
-							<td>{{path.beginP}}</td>
-							<td>{{path.endP}}</td>
+						<!-- <tr ng-repeat="path in paths | filter : {beginP: queryBeginP, endP: queryEndP}"> -->
+						<tr ng-repeat="path in paths ">
+							<td>{{path.time}}</td>
+							<td>{{path.beginName}}</td>
+							<td>{{path.endName}}</td>
 							<td>{{path.price}}</td>
-							<td>{{path.ticket}}</td>
+							<td>{{path.remainder}}</td>
 							<td><a href="javascript:void(0)" class="btn book-btn" ng-click="selectPath($index)">预定</a></td>
 						</tr>
 					</table>

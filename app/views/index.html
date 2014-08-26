@@ -19,10 +19,10 @@
 	<!-- 幻灯片 结束 -->
 	<!-- 列表 开始 -->
 	<div class="post-list">
-		<span ng-repeat = "place in placeList">
-			<img ng-src="{{place.img}}" alt="">
-			<i class="title">{{place.title}}
-				<div >￥ {{place.price}} 起<a href="#/page_detail/{{place.page_id}}" class="btn">预定</a></div>
+		<span ng-repeat = "company in hadCompanys">
+			<img ng-src="{{company.imgUrl}}" alt="">
+			<i class="title">{{company.mes}}
+				<div >赶快预定吧！<a href="#/page_detail/{{company._id}}" class="btn">预定</a></div>
 			</i>
 		</span>
 		

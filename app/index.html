@@ -28,7 +28,7 @@
                 </div>
                 <ul class="menu">
                     <li ><a href="###" class="menu-active">首页</a></li>
-                    <li>
+                    <li >
                         <a href="#/myTicket/booking">我的车票</a>
                          <ul class="sub-menu">
                             <li><a href="#/myTicket/booking">未完成订单</a></li>
@@ -46,6 +46,12 @@
                         <ul class="sub-menu">
                             <li><a href="#/mes/people">常用联系人</a></li>
                             <li><a href="###">车票快递地址</a></li>
+                        </ul> 
+                    </li>
+                    <li><a href="#/company/mes">商家信息</a>
+                        <ul class="sub-menu">
+                            <li><a href="#/company/mes">信息管理</a></li>
+                            <li><a href="#/company/booked">收到订单</a></li>
                         </ul> 
                     </li>
                 </ul>
@@ -67,7 +73,7 @@
                 <em ng-show="isLogin">欢迎</em>
                 <a href="###" class="login-name" ng-show="isLogin">{{userName}}</a>|
                 <a href="###" ng-show="isLogin" ng-click="logout()">退出</a>
-                <a href="javascript:void(0)" ng-show="!isLogin">注册</a>
+                <a href="javascript:void(0)" ng-show="!isLogin" ng-click="regist()">注册</a>
                 <!-- 登录框 待整理 -->
                 <link rel="stylesheet" href="styles/login.css">
                 <div id="dialog" ng-show="isShow">
@@ -78,6 +84,10 @@
                         <form id="post" ng-submit="form.submit()">
                             <input type="text" name="userName" ng-model="form.username" id="userName" placeholder="请输入用户名">
                             <input type="text" name="pwd"  ng-model="form.password" id="pwd" placeholder="请输入密码">
+                            <p class="userType" >
+                                <label >个人<input type="radio" name="type" value="1" ng-model="form.type"></label>
+                            <label >商家<input type="radio" name="type" value="2" ng-model="form.type"></label>
+                            </p>
                             <div class="ctr">
                                 <input type="submit" class="loginBox_submit" value="登录">
                             </div>
@@ -85,6 +95,26 @@
                     </div>
                 </div>
                 <!-- 登录框 结束 -->
+                <!-- 注册框 -->
+                 <div id="dialog" ng-show="isRegist">
+                    <div class="loginBox" >
+                        <div class="loginBox_header">
+                            <a href="javascript:void(0)" ng-click="regist()">x</a>
+                        </div>
+                        <form id="post" ng-submit="form2.submit()">
+                            <input type="text" name="userName" ng-model="form2.username" id="userName" placeholder="请输入用户名">
+                            <input type="text" name="pwd"  ng-model="form2.password" id="pwd" placeholder="请输入密码">
+                            <p class="userType" >
+                                <label >个人<input type="radio" name="type" value="1" ng-model="form2.type"></label>
+                            <label >商家<input type="radio" name="type" value="2" ng-model="form2.type"></label>
+                            </p>
+                            <div class="ctr">
+                                <input type="submit" class="loginBox_submit" value="注册">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- 注册框 结束-->
             </div>
         </div>
 

@@ -1,0 +1,101 @@
+<div class="title-show select-result">
+	<h2>商家信息</h2>
+</div>
+<link rel="stylesheet" href="styles/selfMes.css">
+<fieldset>
+	<legend>基本信息</legend>
+	<label class="indent1">用户名：<input type="text" ng-model="newCompany.username" readonly="readonly"></label>
+	<label class="indent2">名称：<input type="text" ng-model="newCompany.name"></label>
+	<label >首页介绍：<input type="text" ng-model="newCompany.mes"></label>
+
+	
+	<label>显示图片：<input type="text" ng-model="newCompany.imgUrl"></label>
+	<label >简介：<textarea name="" id="" cols="23" rows="6" ng-model="newCompany.intr"></textarea>
+	<button class="btn edit" ng-click="userUpdate()">编辑</button>
+</fieldset>
+
+<div class="title-show select-result">
+	<h2>已发布路线</h2>
+</div>
+<table>
+	<tr>
+		<th>时间</th>
+		<th>起点</th>
+		<th>终点</th>
+		<th>价格</th>
+		<th>余票</th>
+		<th>操作</th>
+	</tr>
+	
+	<tr ng-repeat="path in hadPaths">
+		<td>{{path.time}}</td>
+		<td>{{path.beginName}}</td>
+		<td>{{path.endName}}</td>
+		<td>{{path.price}}</td>
+		<td>{{path.remainder}}</td>
+
+		<td><a href="javascript:void(0)" class="btn book-btn" ng-click="deletePath($index)">删除</a></td>
+	</tr>
+</table>
+
+<div class="title-show select-result">
+	<div class="ctr-btn">
+		<div class="pre"></div>
+		<div class="next"></div>
+	</div>
+	<h2>添加新路线</h2>
+</div>
+<table>
+	<tr>
+		<th>时间</th>
+		<th>起点</th>
+		<th>终点</th>
+		<th>价格</th>
+		<th>余票</th>
+		<th>操作</th>
+	</tr>
+	<tr>
+		<td><input type="text" size="6em" ng-model="newPath.time"></td>
+		<td><input type="text" size="6em" ng-model="newPath.beginName"></td>
+		<td><input type="text" size="6em" ng-model="newPath.endName"></td>
+		<td><input type="text" size="6em" ng-model="newPath.price"></td>
+		<td><input type="text" size="6em" ng-model="newPath.remainder"></td>
+		<td><a href="javascript:void(0)" class="btn book-btn" ng-click="addPath()">添加</a></td>
+	</tr>
+</table>
+<style>
+	
+	.beginIntr, .endIntr{
+		position: relative;
+		left: 10px;
+		border: 1px solid #EEE;
+		display: inline-block;
+		width: 200px;
+		height: 100px;
+	}
+	.endIntr{
+		left: 30px;
+	}
+	.topdirection1, .topdirection2 {  
+	    width:0;
+	    height:0;  
+	    line-height:0;  
+	    border-width:20px;  
+	    border-style:solid; 
+		position: relative;
+	    border-color: transparent transparent #FFF transparent;  
+	}  
+	.topdirection1{
+		top: -145px;
+		left: 146px;
+	}
+	.topdirection2{
+		top: -185px;
+		left: 265px;
+	}
+</style>
+<textarea class="beginIntr" placeholder="起点介绍:" ng-model="newPath.beginIntr"></textarea> 
+<textarea class="endIntr" placeholder="终点介绍:" ng-model="newPath.endIntr"></textarea> 
+<div class="topdirection1"></div>
+<div class="topdirection2"></div>
+
