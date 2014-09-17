@@ -46,14 +46,15 @@
 		.places{
 			text-align: justify;
 			width: 100%;
+			margin-right: -22px;
 		}
 		.place{
 			display: inline-block;
 			width: 212px;
-			height: 180px;
 			margin-bottom: 57px;
 			background-color: #f3f3f3;
 			transition:all .2s ease 0;
+			margin-right: 14px;
 		}
 		.place:hover {
 			background-color: #C7EEC7;

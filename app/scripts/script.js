@@ -3,7 +3,6 @@ angular.module('nApp')
   .controller('loginCtr', ['$scope','$http','$location','$rootScope',
     function ($scope,$http,$location,$rootScope) {
     	//是否是商家
-
 		$scope.isShow = false;
 		$scope.login = function(){
 			$scope.isShow = !$scope.isShow;

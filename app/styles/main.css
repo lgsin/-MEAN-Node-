@@ -187,6 +187,8 @@ a:hover{
     float: left;
     width: 680px;
     margin-left: 40px;
+    z-index: 0;
+    position: relative;
 }
 .login{
     width: 100%;
@@ -211,34 +213,34 @@ a:hover{
     color: rgb(94, 94, 94);
 }
 /* table 样式*/
-table{
+table.tb {
     width: 100%;
     border-collapse: separate;
     background: #f3f3f3;
     border-spacing: 2px;
     margin-bottom: 20px;
 }
-table th,table td{
+table.tb th,table.tb td{
     padding: 10px 18px;
     text-align: center;
 }
-table tr:first{
+table.tb  tr:first{
     background: #f3f3f3;
 }
 
-table tr:nth-child(even){
+table.tb  tr:nth-child(even){
     background-color: rgba(0,0,0,.02);
 }
-table tr:hover{
+table.tb  tr:hover{
     background-color: rgba(0,0,0,.05);
 }
-table tr:first-child:hover{
+table.tb  tr:first-child:hover{
     background-color:#f3f3f3;
 }
-table tr:first-child{
+table.tb  tr:first-child{
     background-color:#f3f3f3;
 }
-table .book-btn{
+table.tb  .book-btn{
     padding: 0px 20px;
     width: 35px;
     height: 30px;
@@ -395,3 +397,10 @@ div.select-result{
 .userType label{
     padding: 10px;
 }
+
+/* datepicker*/
+#ui-datepicker-div{
+    background: #fafafa;
+}
+
+

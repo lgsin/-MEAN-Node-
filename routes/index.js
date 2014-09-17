@@ -5,25 +5,54 @@ var Company = require('../models/company.js');
 var Path = require('../models/path.js');
 
 
-
 module.exports = function (app) {
    /* app.get('/', function (req, res, next) {
         res.render('index');
     });*/
+    app.post('/test',function(req,res){
+        var url = req.files.ff.path;
+        var k = copyFile(url);
+        res.redirect('#/company/mes');
+        
+        function  copyFile(url){
+            this.fs = require('fs');
+            this.path = require("path");
+            //上传文件的路径
+            var fileUrl = url;
+            //输入流
+            var rs = this.fs.createReadStream(fileUrl);
+            //文件名
+            var fileName = this.path.basename(fileUrl);
+
+            //项目根目录
+            var rootUrl = "/Users/kakurinshuo/n/app";
+            //图片等资源路径目录
+            var resourceUrl = "/images";
+
+            var newResourceUrl = resourceUrl;
+            rootUrl = this.path.join(rootUrl, resourceUrl);
+            var newResourceUrl = this.path.join(rootUrl, fileName);
+            //输出流
+            var ws = this.fs.createWriteStream(newResourceUrl);
+            rs.pipe(ws);
+            //返回相对路径
+            return resourceUrl + "/" + fileName;
+        }
+    })
     //  注册 商家 账号
     app.post('/api/registCompany',function(req,res){
         var newCompany = new Company(req.body);
-        console.log("new"+newCompany)
-           newCompany.save(function(err,result){ 
-                if(err){ 
-                  req.flash('error',err); 
-                  return res.redirect('/'); 
-                } 
-                //成功后，将用户信息记录在页面间的会话req.session中，并且跳转到一个新页面，就是内容集中展示页面
-                req.session.newCompany = newCompany; 
-                res.json({newCompany: newCompany});
-            }); 
+        console.log(newCompany)
+        newCompany.save('company', function(err,result){ 
+            if(err){ 
+              req.flash('error',err); 
+              return res.redirect('/'); 
+            } 
+            //成功后，将用户信息记录在页面间的会话req.session中，并且跳转到一个新页面，就是内容集中展示页面
+            req.session.newCompany = newCompany; 
+            res.json({newCompany: newCompany});
         }); 
+    }); 
     //  商家登录
         //  登录
     app.post('/api/loginCompany', function(req,res){
@@ -35,7 +64,7 @@ module.exports = function (app) {
             password: req.body.password
         });
         //验证用户
-        newCompany.check(newCompany.username, function(err, company) {
+        newCompany.check('company',{username: newCompany.username}, function(err, company) {
             if (company) {
                 console.log("存在该company")
                 //如果存在，就返回用户的所有信息，取出password来和post过来的password比较
@@ -47,12 +76,10 @@ module.exports = function (app) {
                     //存到session中
                     req.session.company = company;
                     console.log(req.session);
-
                     res.json({company: company});
                 }
             } else {
                 console.log("用户不存在")
-              //  req.flash('error', '用户不存在');
                 res.redirect('/');
             }
         });
@@ -61,17 +88,17 @@ module.exports = function (app) {
     //  注册 个人 账号
     app.post('/api/regist',function(req,res){
         var newUser = new User(req.body);
-        console.log("new"+newUser)
-           newUser.save(function(err,user){ 
-                if(err){ 
-                  req.flash('error',err); 
-                  return res.redirect('/'); 
-                } 
-                //成功后，将用户信息记录在页面间的会话req.session中，并且跳转到一个新页面，就是内容集中展示页面
-                req.session.user = user; 
-                res.json({user: user});
-            }); 
+        console.log(newUser)
+        newUser.save('user', function(err,user){ 
+            if(err){ 
+              req.flash('error',err); 
+              return res.redirect('/'); 
+            } 
+            //成功后，将用户信息记录在页面间的会话req.session中，并且跳转到一个新页面，就是内容集中展示页面
+            req.session.user = user; 
+            res.json({user: user});
         }); 
+    }); 
 
     //  登录
     app.post('/api/login', function(req,res){
@@ -83,7 +110,7 @@ module.exports = function (app) {
             password: req.body.password
         });
         //验证用户
-        newUser.check(newUser.username, function(err, user) {
+        newUser.check('user',{username : newUser.username}, function(err, user) {
             if (user) {
                 console.log("存在该user")
                 //如果存在，就返回用户的所有信息，取出password来和post过来的password比较
@@ -106,10 +133,9 @@ module.exports = function (app) {
         });
     })
     
-
     //  获得已有公司
     app.get('/api/getCompany',function(req,res){
-        Company.prototype.getCompany(function(err,companys){
+        Company.prototype.getList('company',{},function(err,companys){
             if(err){
                 return reas.redirect('/');
             }
@@ -125,9 +151,9 @@ module.exports = function (app) {
     })
 
     //  添加新联系人
-    app.post('/api/addFriend',function(req,res){
+    app.post('/api/friend',function(req,res){
         var newFriend = new Friend(req.body);
-        newFriend.save(function(err,newFriend){ 
+        newFriend.save('friend', function(err,newFriend){ 
             if(err){ 
               req.flash('error',err); 
               return res.redirect('/'); 
@@ -137,8 +163,8 @@ module.exports = function (app) {
     }); 
 
     //  删除联系人
-    app.post('/api/deleteFriend',function(req,res){
-        Friend.prototype.deleteFriend(req.body.friendId,function(err,result){ 
+    app.delete('/api/friend/:userId/:friID',function(req,res){
+        Friend.prototype.deleteById('friend', {_id: req.params.friID},function(err,result){ 
             if(err){ 
               req.flash('error',err); 
               return res.redirect('/'); 
@@ -147,12 +173,12 @@ module.exports = function (app) {
         }); 
     }); 
      //  获得联系人
-     app.get('/api/getFriends/:userId',function(req,res){
-        var friend = new Friend({userId: req.params.userId});
-        friend.getFriends(friend.userId,function(err,friends){
+     app.get('/api/friend/:userId',function(req,res){
+        Friend.prototype.getList('friend',{userId: req.params.userId},function(err,friends){
             if(err){
                 return reas.redirect('/');
             }
+            console.log(friends)
             res.json({friends: friends});
         })
      });
@@ -160,7 +186,7 @@ module.exports = function (app) {
     //  买票
     app.post('/api/bookTicket',function(req,res){
         var ticket = new Ticket(req.body);
-       ticket.save(function(err,ticket){ 
+        ticket.save('ticket',function(err,ticket){ 
             if(err){ 
               req.flash('error',err); 
               return res.redirect('/'); 
@@ -170,9 +196,8 @@ module.exports = function (app) {
     }); 
 
     //  获取 已买票
-    app.get('/api/getBookingTicket/:userId',function(req,res){
-        var ticket = new Ticket({userId: req.params.userId});
-        ticket.getBookingTicket(ticket.userId, function(err,tickets){ 
+    app.get('/api/ticket/:userId',function(req,res){
+        Ticket.prototype.getList('ticket',{userId: req.params.userId}, function(err,tickets){ 
             if(err){ 
               return res.redirect('/'); 
             } 
@@ -180,9 +205,9 @@ module.exports = function (app) {
         }); 
     }); 
 
-     //  取消已买票
-    app.post('/api/deleteTicket',function(req,res){
-        Ticket.prototype.cencelTicket(req.body.ticketId,function(err,result){ 
+    //  取消已买票
+    app.delete('/api/ticket/:ticketId',function(req,res){
+        Ticket.prototype.deleteById('ticket', {_id: req.params.ticketId},function(err,result){ 
             if(err){ 
               req.flash('error',err); 
               return res.redirect('/'); 
@@ -191,21 +216,20 @@ module.exports = function (app) {
         }); 
     }); 
 
-      //  获得已有路线
-     app.get('/api/getPaths/:companyId',function(req,res){
-        var path = new Path({companyId: req.params.companyId});
-        path.getPath(path.companyId,function(err,paths){
+    //  获得已有路线
+    app.get('/api/path/:companyId',function(req,res){
+        Path.prototype.getList('path', {companyId: req.params.companyId},function(err,paths){
             if(err){
                 return reas.redirect('/');
             }
             res.json({paths: paths});
         })
-     });
+    });
 
     //  添加新路线
-    app.post('/api/addPath',function(req,res){
+    app.post('/api/path',function(req,res){
         var newPath = new Path(req.body);
-        newPath.save(function(err,newPath){ 
+        newPath.save('path', function(err,newPath){ 
             if(err){ 
               req.flash('error',err); 
               return res.redirect('/'); 
@@ -214,8 +238,9 @@ module.exports = function (app) {
         }); 
     }); 
     //  删除 已有路线
-    app.post('/api/deletePath',function(req,res){
-        Path.prototype.deletePath(req.body.pathId,function(err,result){ 
+    app.delete('/api/path/companyId/:pathId',function(req,res){
+        console.log("ff")
+        Path.prototype.deleteById('path', {_id: req.params.pathId},function(err,result){ 
             if(err){ 
               req.flash('error',err); 
               return res.redirect('/'); 
@@ -225,9 +250,10 @@ module.exports = function (app) {
     }); 
 
     //  获取 收到订单
-    app.get('/api/companyGetBookingTicket/:companyId',function(req,res){
-        var ticket = new Ticket({companyId: req.params.companyId});
-        ticket.companyGetBookingTicket(ticket.companyId, function(err,tickets){ 
+    app.get('/api/ticket/company/:companyId',function(req,res){
+        console.log("----")
+        Ticket.prototype.getList('ticket', {companyId: req.params.companyId}, function(err,tickets){ 
+            console.log(tickets)
             if(err){ 
               return res.redirect('/'); 
             } 

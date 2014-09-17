@@ -17,63 +17,11 @@ angular.module('nApp')
   /*
    * '/detail:id' page_detail.html pageDetailCtr
    */
-  .controller('pageDetailCtr', ['$scope','$routeParams','$http','$rootScope',
-    function ($scope,$routeParams,$http,$rootScope) {
+  .controller('pageDetailCtr', ['$scope','$routeParams','$http','$rootScope','FRIEND','hadPath',
+    function ($scope,$routeParams,$http,$rootScope,FRIEND,hadPath) {
       console.log($routeParams.id) 
-
-      //起始地点
-      $scope.placesBegin= [{
-        placeBeginId: 1,
-        placeName: "广州北",
-        placeIntr: "广州东站广州东站广州东站广州东站广州东."
-      },{
-        placeBeginId: 2,
-        placeName: "广州东站2",
-        placeIntr: "广州东站广州东站广州东站广州东站广州东."
-      },{
-        placeBeginId: 3,
-        placeName: "广州东站3",
-        placeIntr: "广州东站广州东站广州东站广州东站广州东."
-      }];
-
-      //到站地点
-      $scope.placesEnd= [{
-        placeEndId: 1,
-        placeName: "揭阳市",
-        placeIntr: "广州东站广州东站广州东站广州东站广州东."
-      },{
-        placeEndId: 2,
-        placeName: "普宁市",
-        placeIntr: "广州东站广州东站广州东站广州东站广州东."
-      },{
-        placeEndId: 3,
-        placeName: "东山市",
-        placeIntr: "广州东站广州东站广州东站广州东站广州东."
-      }];
-
-    
-
-      // 初始化 起始站和终点站
-      $scope.queryBeginP = '';
-      $scope.queryEndP = '';
-
-      // 选择起始地址 改变样式，改变列表筛选结果
-      $scope.selectedBeginPlace = function(index){
-        $scope.selectedBegin = index;
-        $scope.queryBeginP = $scope.placesBegin[index].placeName;
-      }
-      $scope.placeEndSelect = function(index){
-        $scope.selectedEnd = index;
-        $scope.queryEndP = $scope.placesEnd[index].placeName;
-      }
-      
-      $scope.selectPath = function(index){
-        $scope.selectedPath = $scope.paths[index]
-        $scope.isDialog = !$scope.isDialog;
-      }
-      $scope.cencelDialog = function(){
-        $scope.isDialog = !$scope.isDialog;
-      }
+      // 获取 对应公司的所有路线
+      $scope.paths =  hadPath;
 
       // 初始化 ticketForm
       $scope.ticketForm = {};
@@ -97,7 +45,6 @@ angular.module('nApp')
             }
             // 异步请求导致 db object already connecting, open cannot be called multiple times
             // setTimeout(function(){
-
                 $http.post('/api/bookTicket', bookingTicket).success(function(){
                 console.log("买票成功")
                 console.log($scope.selectedPath.companyId);
@@ -108,29 +55,57 @@ angular.module('nApp')
           };
         };
       }
-      // 获取 对应公司的所有路线
-      $http.get('/api/getPaths/' + $routeParams.id).success(function(data) {
-        console.log(data)
-        $scope.paths = data.paths;
-          // 获取 已有联系人
-          $http.get('/api/getFriends/' + $rootScope.user._id).success(function(data) {
-            $scope.hadFriends = data.friends;
-            $scope.hadFriends.unshift($rootScope.user)
-          })
-      })
-     
+
+
+      // 初始化 起始站和终点站
+      $scope.queryBeginP = '';
+      $scope.queryEndP = '';
+
+      // 选择起始地址 改变样式，改变列表筛选结果
+      $scope.selectedBeginPlace = function(index){
+        $scope.selectedBegin = index;
+        console.log($scope.paths[index])
+        $scope.queryBeginP = $scope.paths[index].beginName;
+      }
+      $scope.placeEndSelect = function(index){
+        $scope.selectedEnd = index;
+        $scope.queryEndP = $scope.paths[index].endName;
+      }
+      
+      $scope.selectPath = function(index){
+        // 获取 已有联系人
+        FRIEND.get({id: $rootScope.user._id},function(data){
+          $scope.hadFriends = [];
+          if(data){
+             $scope.hadFriends = data.friends;
+          }
+          $scope.hadFriends.unshift($rootScope.user);
+        });
+        //  已选路线
+        $scope.selectedPath = $scope.paths[index]
+        $scope.isDialog = !$scope.isDialog;
+      }
+      $scope.cencelDialog = function(){
+        $scope.isDialog = !$scope.isDialog;
+      }
 
       //  添加联系人
       $scope.newFriend = {
         userId : $rootScope.user._id
       };
       $scope.addFriend = function(){
-        $http.post('/api/addFriend', $scope.newFriend).success(function (data) {
-          $scope.hadFriends.push($scope.newFriend);
-          $scope.newFriend = {
-            userId : $rootScope.user._id
-          };
-        })
+        FRIEND.save({},$scope.newFriend);
+        $scope.hadFriends.push($scope.newFriend);
+        //清空输入框
+        $scope.newFriend = {
+          userId : $rootScope.user._id
+        };
+        // $http.post('/api/addFriend', $scope.newFriend).success(function (data) {
+        //   $scope.hadFriends.push($scope.newFriend);
+        //   $scope.newFriend = {
+        //     userId : $rootScope.user._id
+        //   };
+        // })
       }
 
       // 选择已有联系人
@@ -147,47 +122,68 @@ angular.module('nApp')
   /*
    * '/myTicket/booking' booking.html bookingCtr
    */
-  .controller('bookingCtr', function ($scope,$http,$location,$rootScope) {
+  .controller('bookingCtr', function ($scope,$http,$location,$rootScope,TICKET,hadTickets) {
       //  已买票
-      $http.get('/api/getBookingTicket/' + $rootScope.user._id).success(function(data) {
-        $scope.tickets = data.tickets;
-      });
+      $scope.tickets = hadTickets;
+      // TICKET.get({id: $rootScope.user._id},function(data){
+      //   $scope.tickets = data.tickets;
+      // })
+      // $http.get('/api/getBookingTicket/' + $rootScope.user._id).success(function(data) {
+      //   $scope.tickets = data.tickets;
+      // });
 
       //  取消已买票
       $scope.cencelTicket = function(index){
-        $http.post('/api/deleteTicket',{ticketId: $scope.tickets[index]._id}).success(function(){
+        TICKET.delete({ticketId: $scope.tickets[index]._id},function(){
           $scope.tickets.splice(index,1);
           console.log("票取消成功")
         })
+        // $http.post('/api/deleteTicket',{ticketId: $scope.tickets[index]._id}).success(function(){
+        //   $scope.tickets.splice(index,1);
+        //   console.log("票取消成功")
+        // })
       }
 
   })
   /*
    * '/myTicket/booked' booked.html bookiedCtr
    */
-  .controller('bookedCtr', function ($scope,$http,$location,$rootScope ) {
-      //  曾买票
-      $http.get('/api/getBookingTicket/' + $rootScope.user._id).success(function(data) {
-        $scope.Oldtickets = data.tickets;
-      });
+  .controller('bookedCtr', function ($scope,$http,$location,$rootScope,TICKET,hadTickets) {
+      //  曾买票 待修改***
+      $scope.Oldtickets = hadTickets;
+
+      // TICKET.get({id: $rootScope.user._id},function(data){
+      //   $scope.Oldtickets = data.tickets;
+      //  })
+      // $http.get('/api/getBookingTicket/' + $rootScope.user._id).success(function(data) {
+      //   $scope.Oldtickets = data.tickets;
+      // });
 
   })
 
   /*
    * '/mes/people' mesPeople.html mesPeopleCtr
    */
-  .controller('mesPeopleCtr', function ($scope,$http,$location,$rootScope) {
+  .controller('mesPeopleCtr', function ($scope,$http,$location,$rootScope,FRIEND,friends) {
       // 获取 已有联系人
-      $http.get('/api/getFriends/' + $rootScope.user._id).success(function(data) {
-        $scope.hadFriends = data.friends;
-      })
+      $scope.hadFriends = friends;
+
+      // FRIEND.get({id: $rootScope.user._id},function(data){
+      //      $scope.hadFriends = data.friends;
+      // });
+      // $http.get('/api/getFriends/' + $rootScope.user._id).success(function(data) {
+      //   $scope.hadFriends = data.friends;
+      // })
 
       //  删除已有联系人
       $scope.deleteFri = function (index) {
-        $http.post('/api/deleteFriend',{friendId: $scope.hadFriends[index]._id}).success(function(data)  {
-          console.log(data);
-          $scope.hadFriends.splice(index,1);
-        })
+        FRIEND.delete({id: $rootScope.user._id,friID: $scope.hadFriends[index]._id});
+        $scope.hadFriends.splice(index,1);
+
+        // $http.post('/api/deleteFriend',{friendId: $scope.hadFriends[index]._id}).success(function(data)  {
+        //   console.log(data);
+        //   $scope.hadFriends.splice(index,1);
+        // })
 
       }
 
@@ -201,9 +197,12 @@ angular.module('nApp')
         userId : $rootScope.user._id
       };
       $scope.addFriend = function(){
-        $http.post('/api/addFriend', $scope.newFriend).success(function (data) {
-          $scope.hadFriends.push($scope.newFriend);
-        })
+        $scope.hadFriends.push($scope.newFriend);
+        FRIEND.save({},$scope.newFriend);
+        //清空输入框
+        $scope.newFriend = {
+          userId : $rootScope.user._id
+        };
       }
 
   })
@@ -238,56 +237,72 @@ angular.module('nApp')
    /*
    * '/company/mes' company.html mesCompanyCtr
    */
-  .controller('mesCompanyCtr', function ($scope,$http,$location,$rootScope) {
+  .controller('mesCompanyCtr', function ($scope,$http,$location,$rootScope,hadPath,PATH) {
+    // 获取 已有路线
+    $scope.hadPaths = hadPath;
+    // $http.get('/api/getPaths/' + $rootScope.newCompany._id).success(function(data) {
+    //   console.log($rootScope.newCompany._id)
+    //   $scope.hadPaths = data.paths;
+    // })
+
+   
+
+    $scope.formImg = {};
+    /* 提交图片，现无用到，待修改*/
+    $scope.submitImg = function(){
+       $http.post('/test',$scope.formImg).success(function (data) {
+          console.log(data)
+          $location.url('/company/mes'); 
+        })
+    }
+    
     $scope.newCompany = $rootScope.newCompany; 
     $scope.userUpdate = function() {
         $http.post('/api/registCompany', $scope.newCompany).success(function (data) {
-          console.log($scope.newCompany+":data"+data)
           console.log($scope.newCompany)
           $rootScope.newCompany = $scope.newCompany = data.newCompany;
         })
     }
-    // 获取 已有路线
-      $http.get('/api/getPaths/' + $rootScope.newCompany._id).success(function(data) {
-        console.log($rootScope.newCompany._id)
-        console.log(data)
+    
+    //  删除 已有路线
+    $scope.deletePath = function (index) {
+      // $scope.hadPaths.$delete({companyId:'companyId',pathId: $scope.hadPaths[index]._id});
+      // $scope.hadPaths.splice(index,1);
+      PATH.delete({companyId:'companyId', pathId: $scope.hadPaths[index]._id});
+      $scope.hadPaths.splice(index,1);
+      // $http.post('/api/deletePath',{pathId: $scope.hadPaths[index]._id}).success(function(data)  {
+      //   console.log(data);
+      //   $scope.hadPaths.splice(index,1);
+      // })
+    }
+    //  修改已有联系人
+    $scope.updateFri = function (index) {
+    }
 
-        $scope.hadPaths = data.paths;
-      })
-
-      //  删除 已有路线
-      $scope.deletePath = function (index) {
-        $http.post('/api/deletePath',{pathId: $scope.hadPaths[index]._id}).success(function(data)  {
-          console.log(data);
-          $scope.hadPaths.splice(index,1);
-        })
-
-      }
-
-      //  修改已有联系人
-      $scope.updateFri = function (index) {
-
-      }
-
-      //  添加 路线
-      $scope.newPath = {
-        companyId : $rootScope.newCompany._id
-      };
-      $scope.addPath = function(){
-        $http.post('/api/addPath', $scope.newPath).success(function (data) {
-          $scope.hadPaths.push($scope.newPath);
-           $scope.newPath = {
-            companyId : $rootScope.newCompany._id
-          };
-        })
-      }
+   
+    //  添加 路线
+    $scope.newPath = {
+      companyId : $rootScope.newCompany._id,
+      time : new Date()
+    };
+    $scope.addPath = function(){
+      PATH.save({}, $scope.newPath);
+      $scope.hadPaths.push($scope.newPath);
+      $scope.newPath = {companyId : $rootScope.newCompany._id};
+    }
   })
    /*
    * '/company/booked' companyBooked.html companyBookedCtr
    */
-  .controller('companyBookedCtr', function ($scope,$http,$location,$rootScope ) {
+  .controller('companyBookedCtr', function ($scope,$http,$location,$rootScope,TICKET) {
       //  收到订票
-      $http.get('/api/companyGetBookingTicket/' + $rootScope.newCompany._id).success(function(data) {
+      
+      // TICKET.getCompTic({companyId: $rootScope.newCompany._id},function(data){
+      //   console.log(data)
+      //   //$scope.companyTickets = data.tickets;
+      // })
+
+      $http.get('/api/ticket/company/' + $rootScope.newCompany._id).success(function(data) {
         console.log(data)
         $scope.companyTickets = data.tickets;
       });

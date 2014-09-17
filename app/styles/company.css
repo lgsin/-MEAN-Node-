@@ -1,0 +1,28 @@
+.beginIntr, .endIntr{
+	position: relative;
+	left: 10px;
+	border: 1px solid #EEE;
+	display: inline-block;
+	width: 200px;
+	height: 100px;
+}
+.endIntr{
+	left: 30px;
+}
+.topdirection1, .topdirection2 {  
+    width:0;
+    height:0;  
+    line-height:0;  
+    border-width:20px;  
+    border-style:solid; 
+	position: relative;
+    border-color: transparent transparent #FFF transparent;  
+}  
+.topdirection1{
+	top: -145px;
+	left: 146px;
+}
+.topdirection2{
+	top: -185px;
+	left: 265px;
+}

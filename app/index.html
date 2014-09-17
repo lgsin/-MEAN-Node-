@@ -20,7 +20,7 @@
     <!-- 固定侧边导航  -->
     <div id="content">
         <div class="col-left">
-        <div class="nav">
+        <div class="nav" ng-controller="loginCtr">
             <a href="" class="nav-logo"><img src="" alt=""></a>
             <div class="nav-menu">
                 <div class="nav-label">
@@ -28,7 +28,7 @@
                 </div>
                 <ul class="menu">
                     <li ><a href="###" class="menu-active">首页</a></li>
-                    <li >
+                    <li>
                         <a href="#/myTicket/booking">我的车票</a>
                          <ul class="sub-menu">
                             <li><a href="#/myTicket/booking">未完成订单</a></li>
@@ -123,12 +123,12 @@
     </div>
     <!-- 右侧结束 -->
     </div>
-    <!-- 底部  -->
+    <!-- 底部 
     <div id="footer">
         <span class="icp">
             2013－2014 linshuo.com, all rights reserved
         </span>
-    </div>
+    </div> -->
     <!-- 底部 结束 -->
 
 
@@ -153,6 +153,16 @@
     <script src="scripts/script.js"></script>
     <script src="scripts/util.js"></script>
 
+    <!-- service.js -->
+    <script src="scripts/services/services.js"></script>
+
+    <!-- directive.js -->
+    <script src="scripts/directives/datepicker.js"></script>
+    
+    <!-- libs -->
+    <!-- jq ui -->
+    <script src="scripts/libs/jquery-ui.min.js"></script>
+    <script src="scripts/libs/jquery-ui.min.css"></script>
 
   </body>
 </html>

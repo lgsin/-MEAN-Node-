@@ -62,16 +62,16 @@
 					</div>
 					<div>
 						<div class="places">
-							<div class="place" ng-repeat= "placeBegin in placesBegin" ng-class="{'place-select': $index == selectedBegin}">
+							<div class="place" ng-repeat= "path in paths" ng-class="{'place-select': $index == selectedBegin}">
 								<div class="place-icon place-icon-rain">
 									<span></span>
 								</div>
 								<div class="place-cont">
 									<div class="cont-heading">
-										<span>{{placeBegin.placeName}}</span>
+										<span>{{path.beginName}}</span>
 									</div>
 									<div class="cont-desc">
-										<span>{{placeBegin.placeIntr}}</span>
+										<span>{{path.beginIntr}}</span>
 									</div>
 									
 								</div>
@@ -87,16 +87,16 @@
 					<div>
 						<div class="places">
 							
-							<div class="place" ng-repeat="placeEnd in placesEnd" ng-class="{'place-select': $index == selectedEnd}">
+							<div class="place" ng-repeat="path in paths" ng-class="{'place-select': $index == selectedEnd}">
 								<div class="place-icon place-icon-rain-thunder">
 									<span></span>
 								</div>
 								<div class="place-cont">
 									<div class="cont-heading">
-										<span>{{placeEnd.placeName}}</span>
+										<span>{{path.endName}}</span>
 									</div>
 									<div class="cont-desc">
-										<span>{{placeEnd.placeIntr}}</span>
+										<span>{{path.endIntr}}</span>
 									</div>
 									
 								</div>
@@ -125,8 +125,7 @@
 							<th>剩余票数</th>
 							<th>操作</th>
 						</tr>
-						<!-- <tr ng-repeat="path in paths | filter : {beginP: queryBeginP, endP: queryEndP}"> -->
-						<tr ng-repeat="path in paths ">
+						<tr ng-repeat="path in paths | filter : {beginName: queryBeginP, endName: queryEndP}"> 
 							<td>{{path.time}}</td>
 							<td>{{path.beginName}}</td>
 							<td>{{path.endName}}</td>
